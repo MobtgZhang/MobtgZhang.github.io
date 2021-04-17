@@ -1,37 +1,45 @@
-## Welcome to GitHub Pages
+## MobtgZhang's GitHub Pages
+This is my personal technical Github pages,here I will share some of my blogs about computer science and mathematical problems.
 
-You can use the [editor on GitHub](https://github.com/MobtgZhang/MobtgZhang.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+The field of my main interests as follows:
++ ML(Machining Learning) and DL(Deep Learning)
++ RL(Reinforcement Learning) and TL(Transfer Learning)
++ NLP(Natural Language Processing)
++ KG(Knowledge Graph) 
++ Optimization(Convex Optimize etc.)
++ Graph theory and Group theory.
++ The application of random process
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+For more details see [Github Pages](https://github.com/MobtgZhang/).
 
-### Markdown
+This is my [CSDN Blog](https://blog.csdn.net/Zhang_Pro/) and [ZhiHu Blog](https://www.zhihu.com/people/amzg/posts).
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Contents
++ [Statistical learning methods]()
 
-```markdown
-Syntax highlighted code block
++ [Neural network and deep learning]()
 
-# Header 1
-## Header 2
-### Header 3
++ [Mathematical probelms]()
 
-- Bulleted
-- List
++ [Algorithms ]()
 
-1. Numbered
-2. List
+### Recent work plan
++ The field of Natural Language Processing(NLP): machine reading comprehension,sentiment analysis,machine translation,and text summary generation.
++ The field of Knowledge Graph(KG):Knowledge Graph Completion,Knowledge Graph Refinement,Relation Extraction,Relation Classification,Entity Alignment,Knowledge Graph Reasoning
++ Interested in developing a personal operating system,base on the frame of `x86`,`x86_64`,`amd64`,`arm32`,`arm64` architecture.
++ Interested in developing a programming language based on an interpreter, and it is still planning.
++ Interested in computer intelligence,and have already made some achievements.
++ Interested in linguistics, learning some languages such as Japanese,Mongolian,and French.
++ Interested in Julia,lua,Go programming language and still learning.
++ Interested in DeepLearning.
 
-**Bold** and _Italic_ and `Code` text
+### Self introduction
+Bachelor degree, now studying for postgraduate research on some content in the field of mathematics and computer, focusing on machine learning and deep learning, love mathematics and computer.
+### Publication
+[1] [郭鑫, 张庚, 陈千,等. 面向机器阅读理解的候选句抽取算法[J]. 计算机科学, 2020, 047(005):198-203.]()
 
-[Link](url) and ![Image](src)
-```
+[2] [Guo X ,  Zhang G ,  Wang S , et al. Multi-way matching based fine-grained sentiment analysis for user reviews[J]. Neural Computing and Applications, 2020, 32(1–2).](https://link.springer.com/article/10.1007/s00521-019-04686-9)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Support or Contact with me.
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/MobtgZhang/MobtgZhang.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
++ E-mail:mobtgzhang@outlook.com
