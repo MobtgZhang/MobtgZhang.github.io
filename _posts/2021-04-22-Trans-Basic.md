@@ -43,7 +43,6 @@ $$S_{(h,r,t)}^{\prime}=\left\{(h^{\prime},r,t)\left|h^{\prime}\in{E}\right.\righ
 
 (2) 很难把全局信息聚集在图中.
 
-
 &ensp;&ensp;&ensp;&ensp;TransE总而言之有以下的一些缺点
 
 + TransE模型中无法解决自反,1-N,N-N,N-1等等关系.
@@ -69,7 +68,7 @@ $$h_{\perp}=h-w_{r}^{T}hw_{r}$$
 
 $$t_{\perp}=t-w_{r}^{T}tw_{r}$$
         
-所以这样的三元组评判的方法为$d(h+r,t)=\left|\left|h_{\perp}+d_{r}-t_{\perp}\right|\right|$.
+所以这样的三元组评判的方法为$d(h+r,t)=\left\|\left\|h_{\perp}+d_{r}-t_{\perp}\right\|\right\|$.
 
 &ensp;&ensp;&ensp;&ensp;为保证约束条件:
 
@@ -90,7 +89,7 @@ $C$是一个衡量约束项的重要性的一个超参数.设每个tail对应的
 (2) 以$\dfrac{\text{hpt}}{\text{tph}+\text{hpt}}$的概率来替换尾实体
 
 ## 2.3 TransR模型
-&ensp;&ensp;&ensp;&ensp;TransH模型能够通过将关系视为一种从头实体到尾实体的翻译机制来获得实体和关系的表征,然而一个实体可能会有多个不同方面的特征,关系可能关注实体不同方面的特征,公共的实体特征不能够表征.所以提出TransR模型<sup>3</sup>$构建实体和关系表征,将实体空间和关系空间相分离.训练的时候首先通过将实体映射到关系空间中,其次在两个投影实体之间构建翻译关系.
+&ensp;&ensp;&ensp;&ensp;TransH模型能够通过将关系视为一种从头实体到尾实体的翻译机制来获得实体和关系的表征,然而一个实体可能会有多个不同方面的特征,关系可能关注实体不同方面的特征,公共的实体特征不能够表征.所以提出TransR模型<sup>3</sup>，即构建实体和关系表征,将实体空间和关系空间相分离.训练的时候首先通过将实体映射到关系空间中,其次在两个投影实体之间构建翻译关系.
 
 &ensp;&ensp;&ensp;&ensp;TransR模型的主要思路如下所示,如图:
 
@@ -104,7 +103,7 @@ $C$是一个衡量约束项的重要性的一个超参数.设每个tail对应的
 
 $$h_{r}=hM_{r},t_{r}=tM_{r}$$
 
-这样得分函数定义为$d(h+r,t)=\left|\left|h_{r}+r-t_{r}\right|\right|_{2}^{2}$,其中的约束条件为
+这样得分函数定义为$d(h+r,t)=\left\|\left\|h_{r}+r-t_{r}\right\|\right\|_{2}^{2}$,其中的约束条件为
 
 $$\left|\left|h\right|\right|_{2}\leq{1},\left|\left|r\right|\right|_{2}\leq{1},\left|\left|t\right|\right|_{2}\leq{1},\left|\left|hM_{r}\right|\right|_{2}\leq{1},\left|\left|tM_{r}\right|\right|_{2}\leq{1}$$
 
