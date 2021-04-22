@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 翻译模型在知识图谱中的应用(二):高斯模型
+title: 翻译模型在知识图谱中的应用(二):基于高斯模型
 categories: 翻译模型
 description: 翻译模型在知识图谱中的嵌入表示
 keywords: 翻译模型,知识图谱,Embeddings
