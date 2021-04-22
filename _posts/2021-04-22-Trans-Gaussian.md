@@ -20,11 +20,11 @@ keywords: 翻译模型,知识图谱,Embeddings
 
 &ensp;&ensp;&ensp;&ensp;KG2E模型中使用h-t表示头尾实体之间的关系,可以计算得到概率分布表示:
 
-$$\mathcal{P}_{e}\sim\mathcal{N}(\mu_{h}-\mu_{t},\sum_{h}+\sum_{t})$$
+$$\mathcal{P}_{e}\sim\mathcal{N}(\mu_{h}-\mu_{t},\Sigma_{h}+\Sigma_{t})$$
 
 关系大概率分布可以表示为
 
-$$\mathcal{P}\sim\mathcal{N}(\mu_{r},\Sigma{r})$$
+$$\mathcal{P}\sim\mathcal{N}(\mu_{r},\Sigma_{r})$$
 
 然后可以评估$\mathcal{P}_{e}$和$\mathcal{P}_{r}$之间的相似度,论文中提出了两种评分的方式:
 
@@ -116,7 +116,7 @@ $$h+u_{r,m_{(h,r,t)}^{*}}\approx{t}$$
 
 $$\mathbb{P}(m_{r},\text{new})=\dfrac{\beta{e^{-\frac{\left|\left|h-t\right|\right|_{2}^{2}}{\sigma_{h}^{2}+\sigma_{t}^{2}+2}}}}{\beta{e^{-\frac{\left|\left|h-t\right|\right|_{2}^{2}}{\sigma_{h}^{2}+\sigma_{t}^{2}+2}}}+\mathbb{P}(h,r,t)}$$
 
-其中,$\mathbb{P}\left\{(h,r,t)\right\}$是当前的后验概率.损失函数的定义如下所示:
+其中,$$\mathbb{P}\left\{(h,r,t)\right\}$$是当前的后验概率.损失函数的定义如下所示:
 
 $$\mathcal{L}=-\sum\limits_{(h,r,t)\in{\Delta}}\ln\left(\sum\limits_{m=1}^{M_{r}}\pi_{r,m}{e^{-\frac{\left|\left|u_{h}+u_{r,m}-u_{t}\right|\right|_{2}^{2}}{\sigma_{h}^{2}+\sigma_{t}^{2}}}}\right)$$
 
