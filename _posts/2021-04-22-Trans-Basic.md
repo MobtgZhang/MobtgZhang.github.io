@@ -164,7 +164,7 @@ $$\theta_{r}=1-(1-\theta_{\min})\dfrac{N_{r}}{N_{r*}}$$
 
 $$h_{p}=M_{r}(\theta_{r})h,t_{p}=M_{r}(\theta_{r})t$$
 
-&ensp;&ensp;&ensp;&ensp;TranSparse(Separate)与Share不同,头尾实体分别映射到不同的关系空间中.$N_{r}^{l}$表示"头实体-关系"映射矩阵$M_{r}^{h}(\theta_{r}^{h})$和"尾实体-关系"映射矩阵$M_{r}^{t}(\theta_{r}^{t})$.对于关系$r$,最大数量头尾实体$h^{*}$和$t^{*}$分别对应的数量为$N_{r^{*}},N_{t^{*}}$.因此"头实体-关系"映射矩阵的稀疏因子为
+&ensp;&ensp;&ensp;&ensp;TranSparse(Separate)与Share不同,头尾实体分别映射到不同的关系空间中.$N_{r}^{l}$表示"头实体-关系"映射矩阵$M_{r}^{h}(\theta_{r}^{h})$和"尾实体-关系"映射矩阵$M_{r}^{t}(\theta_{r}^{t})$.对于关系$r$,最大数量头尾实体$h^{\*}$和$t^{\*}$分别对应的数量为$N_{r^{\*}},N_{t^{\*}}$.因此"头实体-关系"映射矩阵的稀疏因子为
 
 $$\theta_{r}^{h}=1-(1-\theta_{\min})\dfrac{N_{r}^{h}}{N_{r*}^{h^{*}}}$$
 
