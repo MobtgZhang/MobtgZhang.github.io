@@ -80,7 +80,9 @@ $$\forall{r\in{R}},||w_{r}||_{2}=1$$
 
 所以在margin loss函数中加入以下形式的正则化项
 
-$$\mathcal{L}=\sum\limits_{(h,r,t)\in{S}}\sum\limits_{(h^{\prime},r,t^{\prime})\in{S^{\prime}}}\left[\gamma+d(h+r,t)-d(h^{\prime}+r,t^{\prime})\right]_{+}+C\left\{\sum\limits_{e\in{E}}\left[||e||_{2}^{2}-1\right]_{+}+\sum\limits_{r\in{R}}\left[\dfrac{(w_{r}^{T}d_{r})^{2}}{||d_{r}||_{2}^{2}}-\epsilon^{2}\right]_{+}\right\}$$
+$$\mathcal{L}=\sum\limits_{(h,r,t)\in{S}}\sum\limits_{(h^{\prime},r,t^{\prime})\in{S^{\prime}}}\left[\gamma+d(h+r,t)-d(h^{\prime}+r,t^{\prime})\right]_{+}$$
+
+$$+C\left\{\sum\limits_{e\in{E}}\left[||e||_{2}^{2}-1\right]_{+}+\sum\limits_{r\in{R}}\left[\dfrac{(w_{r}^{T}d_{r})^{2}}{||d_{r}||_{2}^{2}}-\epsilon^{2}\right]_{+}\right\}$$
 
 $C$是一个衡量约束项的重要性的一个超参数.设每个tail对应的head数量的平均数为tph,每个head对应的tail数量的平均数为hpt,定义参数为$\dfrac{\text{tph}}{\text{tph}+\text{hpt}}$和$\dfrac{\text{hpt}}{\text{tph}+\text{hpt}}$的二项分布来进行抽样,即有以下的方法:
 
@@ -154,7 +156,11 @@ $$d(h+r,t)=\left|\left|h_{\perp}+r-t_{\perp}\right|\right|_{2}^{2}$$
 
 &ensp;&ensp;&ensp;&ensp;稀疏矩阵指的是一个矩阵中包含有大量的零元素,而零元素所占重元素个数的比值为稀疏因子$\theta$,稀疏因子$\theta$越大表示这个矩阵是越稀疏的,用$M(\theta)$表示系数因子为$\theta$的矩阵.
 
-&ensp;&ensp;&ensp;&ensp;主要的思想:先前的模型中,不论关系对应的实体或者实体对数量多少,训练参数是相同的,因此可能导致数量少的实体或者实体对训练会过拟合,数量多的实体或者实体对训练欠拟合,故而这需要考虑到参数与实体对之间的数量关系.在TranSparse中,假设$N_{r}$表示关系$r$链接的实体对数量,$N_{r^{*}}$表示其中最大值,$r^{*}$表示对应的关系,再设$\theta_{\min}(0\leq{\theta_{\min}}\leq{1})$表示的是矩阵$M_{r^{*}}$的稀疏因子,则会有
+&ensp;&ensp;&ensp;&ensp;主要的思想:先前的模型中,不论关系对应的实体或者实体对数量多少,训练参数是相同的,因此可能导致数量少的实体或者实体对训练会过拟合,数量多的实体或者实体对训练欠拟合,故而这需要考虑到参数与实体对之间的数量关系.在TranSparse中,假设$N_{r}$表示关系$r$链接的实体对数量,$N_{r^{\*}}$表示其中最大值,$r^{*}$表示对应的关系,再设
+
+$$\theta_{\min}(0\leq{\theta_{\min}}\leq{1})$$
+
+表示的是矩阵$M_{r^{*}}$的稀疏因子,则会有
 
 $$\theta_{r}=1-(1-\theta_{\min})\dfrac{N_{r}}{N_{r*}}$$
 
