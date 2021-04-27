@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 知识表征学习必读论文
-categories: 翻译模型
+categories: 论文
 description: 翻译模型在知识图谱中的嵌入表示
 keywords: 翻译模型,知识图谱,Embeddings,KRL,KE,知识表征学习,知识嵌入
 ---
@@ -128,7 +128,7 @@ keywords: 翻译模型,知识图谱,Embeddings,KRL,KE,知识表征学习,知识�
 * TEKE模型
   * 论文标题:Text-Enhanced Representation Learning for Knowledge Graph.
   * 论文作者:Zhigang Wang, Juan-Zi Li. IJCAI 2016.
-  * [论文地址]()
+  * [论文地址](https://www.ijcai.org/Proceedings/16/Papers/187.pdf)
   * 描述:TEKE合并了丰富的文本内容信息,以扩展知识图的语义结构.因此使得每个关系能够针对不同的头实体和尾实体拥有不同的表示,以便于更好地处理1-N,N-1,N-N关系.TEKE处理1-N,N-1,N-N关系的低性能和KG稀疏的问题.
 * STransE模型
   * 论文标题:A Novel Embedding Model of Entities and Relationships in Knowledge Bases.
