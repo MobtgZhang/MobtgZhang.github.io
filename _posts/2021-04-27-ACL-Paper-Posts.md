@@ -10,7 +10,7 @@ keywords: ACL会议,论文合集,代码合集
 1. 《Cognitive Graph for Multi-Hop Reading Comprehension at Scale》(ACL 2019)[论文地址](https://arxiv.org/abs/1905.05460),[GitHub地址](https://github.com/THUDM/CogQA)
 2. 《Variational Pretraining for Semi-supervised Text Classification》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.02242),[GitHub地址](https://github.com/allenai/vampire)
 3. 《Multi-News: a Large-Scale Multi-Document Summarization Dataset and Abstractive Hierarchical Model》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.01749),[GitHub地址](https://github.com/Alex-Fabbri/Multi-News)
-4. 《Data-to-text Generation with Entity Modeling》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.03221),[GitHub地址],(https://github.com/ratishsp/data2text-entity-py)
+4. 《Data-to-text Generation with Entity Modeling》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.03221),[GitHub地址](https://github.com/ratishsp/data2text-entity-py)
 5. 《Transferable Multi-Domain State Generator for Task-Oriented Dialogue Systems》(ACL 2019)[论文地址](https://arxiv.org/abs/1905.08743),[GitHub地址](https://github.com/jasonwu0731/trade-dst)
 6. 《Compositional Questions Do Not Necessitate Multi-hop Reasoning》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.02900),[GitHub地址](https://github.com/shmsw25/single-hop-rc)
 7. 《Syntactically Supervised Transformers for Faster Neural Machine Translation》(ACL 2019)[论文地址](https://arxiv.org/abs/1906.02780),[GitHub地址](https://github.com/dojoteef/synst)
