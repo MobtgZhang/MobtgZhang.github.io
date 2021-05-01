@@ -1,9 +1,9 @@
 ---
 layout: post
 title: 论文解读之R-Net阅读理解模型
-categories: 论文,阅读理解
+categories: 阅读理解
 description: R-Net阅读理解模型解读
-keywords: R-Net,机器阅读理解模型,
+keywords: R-Net,机器阅读理解模型,阅读理解
 ---
 # 简介
 &ensp;&ensp;&ensp;&ensp;机器阅读理解是指让计算机能够阅读文本,随后让计算机解答与文中信息相关系的问题.斯坦福大学自然语言计算组发布SQuAD数据集,微软亚研R-Net是首个在某些指标中接近人类的深度学习模型.本篇文章主要叙述的是机器阅读理解中的R-Net神经网络.
