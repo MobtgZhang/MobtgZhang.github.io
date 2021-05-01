@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 常见的论文中模型评价指标
-categories: 评价方法,
+categories: 评价方法
 description: 论文中常见的评价指标
 keywords: MRR,Hit@10,ACC,ROC,AUR,DCG,IDCG,NDCG,评价指标
 ---
@@ -43,7 +43,7 @@ $$F_{\beta}=(1+\beta^{2})\cdot\dfrac{Precision\cdot{Recall}}{(\beta^{2}\cdot{Pre
 + $AUC=0.5$,这个和随机猜想一样没有预测价值.
 + $0<AUC<0.5$,比随机猜测还差;但只要总是反预测而行,就优于随机猜测.
 
-# Hit Ratio(HR)\\
+# Hit Ratio(HR)
 
 &ensp;&ensp;&ensp;&ensp;HR是一种常用的衡量召回率的指标,计算公式如下所示
 
