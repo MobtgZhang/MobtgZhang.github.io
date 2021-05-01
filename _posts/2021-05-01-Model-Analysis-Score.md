@@ -11,7 +11,7 @@ keywords: MRR,Hit@10,ACC,ROC,AUR,DCG,IDCG,NDCG,评价指标
 &ensp;&ensp;&ensp;&ensp;混淆矩阵是最为常见的一种模型评价的方法,它是表示精度评价的一种标准格式,用n行n列的矩阵形式来表示.它是一种精度评价的可视化工具,特别是用于监督学习,在无监督学习中一般叫做匹配矩阵.在评价过程中主要用于比较分类结果和实际测得值,可以把分类结果的精度现实在一个混淆矩阵里面.具体以二分类表示如下图所示:
 
 <div>
-<p style="text-align:center;"><img src="/images/posts/ModelAnalysis/MixMatrix.png" width="35%" alt="混淆矩阵表示图" /></p>
+<p style="text-align:center;"><img src="/images/posts/ModelAnalysis/MixMatrix.png" width="60%" alt="混淆矩阵表示图" /></p>
 </div>
 
 &ensp;&ensp;&ensp;&ensp;上述图中列举了几个测试的指标,有对应的公式,最常见的公式指的是精确率(ACC).关于混淆矩阵有关的参数如下所示:
