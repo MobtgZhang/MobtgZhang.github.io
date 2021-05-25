@@ -1,13 +1,13 @@
 - name: 码志
   url: http://mazhuang.org
   src: life
-- name: 数心(B站视频Up猪,喜欢数学)
+- name: 数心
   url: https://matheart.github.io/
   src: life
-- name: 烧风(Plot解释器大神)
+- name: 烧风
   url: https://hk-shao.github.io/
   src: life  
-- name: zmx0142857(数学计算机大神)
+- name: zmx0142857
   url: https://zmx0142857.gitee.io/note/
   src: life
  
