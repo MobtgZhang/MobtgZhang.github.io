@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: Python语法
+title: python中常见的重载运算符
 categories: Python语法
 description: Python 常见的重载运算符
 keywords: Python
