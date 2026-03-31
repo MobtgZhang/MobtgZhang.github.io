@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+<article class="px-1 open-source-page">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content mb-4">
+    {{ content }}
+  </div>
+
+  {% assign gh_repos = site.data.github_public_repos %}
+  {% if gh_repos and gh_repos.size > 0 %}
+    {% assign raw_repos = gh_repos | where_exp: 'r', 'r.fork != true' %}
+    {% assign interesting = raw_repos | sort: 'stargazers_count' | reverse %}
+    {% assign recent = raw_repos | sort: 'updated_at' | reverse %}
+    {% assign blurbs = site.data.open_source_blurbs %}
+
+    <div class="row g-3 open-source-columns">
+      <div class="col-lg-6">
+        <h2 class="h5 border-bottom pb-2 mb-3">有意思的项目</h2>
+        <p class="text-muted small mb-3">按 Star 数排序；简介来自仓库说明或下方数据文件中的补充文案。</p>
+        {% for repo in interesting limit: 12 %}
+          {% include open-source-repo-card.html repo=repo blurbs=blurbs %}
+        {% endfor %}
+      </div>
+      <div class="col-lg-6">
+        <h2 class="h5 border-bottom pb-2 mb-3">最近更新</h2>
+        <p class="text-muted small mb-3">按 GitHub 上的最近推送时间排序。</p>
+        {% for repo in recent limit: 12 %}
+          {% include open-source-repo-card.html repo=repo blurbs=blurbs %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-secondary" role="note">
+      <p class="mb-0">
+        未能读取公开仓库列表。本地构建请在环境变量中设置
+        <code>JEKYLL_GITHUB_TOKEN</code>
+        后重试；推送到 GitHub Pages 后一般由 Actions 自动注入元数据。
+      </p>
+    </div>
+  {% endif %}
+</article>
