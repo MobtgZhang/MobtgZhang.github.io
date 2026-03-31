@@ -1,9 +1,10 @@
 ---
-layout: wiki
 title: with 语句使用
-categories: Python语法
-description: Python 常用语法使用方法
-keywords: Python
+categories: [Python语法]
+tags: [Python]
+author: MobtgZhang
+toc: true
+comments: true
 ---
 
 ## with 语句使用

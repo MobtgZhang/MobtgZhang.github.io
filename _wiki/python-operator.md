@@ -1,9 +1,10 @@
 ---
-layout: wiki
 title: python中常见的重载运算符
-categories: Python语法
-description: Python 常见的重载运算符
-keywords: Python
+categories: [Python语法]
+tags: [Python]
+author: MobtgZhang
+toc: true
+comments: true
 ---
 
 ## python中常见的重载运算符

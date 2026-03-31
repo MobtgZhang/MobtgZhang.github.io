@@ -1,9 +1,10 @@
 ---
-layout: wiki
 title: Julia 变量
-categories: Julia语法
-description: Julia 常用语法使用方法
-keywords: Julia
+categories: [Julia语法]
+tags: [Julia]
+author: MobtgZhang
+toc: true
+comments: true
 ---
 
 ## 变量
