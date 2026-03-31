@@ -1,9 +1,9 @@
 ---
-layout: post
 title: 模拟退火算法
-categories: 智能计算
-description: 模拟退火算法在最短路径问题中的应用
-keywords: 模拟退火算法,最短路径问题,
+date: 2021-04-17 12:00:00 +0800
+categories: [智能计算]
+tags: [模拟退火算法, 最短路径问题]
+author: MobtgZhang
 ---
 # 1. 简介
 &ensp;&ensp;&ensp;&ensp;模拟退火算法是一种通用的概率算法，用于在一个大的搜寻空间内寻找问题的最优解。这种思想来源于物理中固体退火的过程，即将固体加热到足够的温度的时候，再缓慢冷却。温度升高时候，固体内部粒子随着温度升高变为无序状态，内能增大，而缓慢冷却的时候粒子却又逐渐趋近于有序状态。实际上这一思想是在一个过程中寻求系统能量最小的一种算法方式，在任意温度下，系统的能量都可以达到热平衡状态，而冷却到最低温度的时候是系统能量最低的状态。在任意一个温度下都可以达到热平衡状态，这是一个重要的步骤，可以由Monte Carlo模拟，但是这需要大量采样处理，工作量非常大。Metropolis提出这样的一种采样的方法，即设从当前的状态$i$生成新的状态$j$，如果新状态的内能小于状态$i$，($E_{j}<E_{i}$)那么接受新状态$j$作为新的当前状态；否则，以概率$exp(-\frac{E_{j}-E_{i}}{kT})$接受状态$j$，其中$k$为Boltzmann常数，这一准则被称为Metropolis准则。           
@@ -68,11 +68,11 @@ exp(-\frac{\Delta S}{T})&,\Delta S>0
 
 经过退火算法的计算之后，最优路径如下图所示：
 
-<img src="/images/posts/CIAlgorithms/202104170001.png" width="80%" alt="最优路径可视化表示图" />
+<img src="/assets/img/posts/CIAlgorithms/202104170001.png" width="80%" alt="最优路径可视化表示图" />
 
 退火算法中最短路径长度的求解在每一次迭代中的长度变化如下所示：
 
-<img src="/images/posts/CIAlgorithms/202104170002.png" width="80%" alt="退火算法迭代中长度变化图" />
+<img src="/assets/img/posts/CIAlgorithms/202104170002.png" width="80%" alt="退火算法迭代中长度变化图" />
 
 
 具体代码参见笔者[GitHub](https://github.com/MobtgZhang/CIAlgorithms/tree/main/SA)，退火模型有python版本和MATLAB版本。

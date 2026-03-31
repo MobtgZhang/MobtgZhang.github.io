@@ -1,9 +1,9 @@
 ---
-layout: post
 title: 蚁群算法
-categories: 智能计算
-description: 蚁群算法在最短路径问题中的应用
-keywords: 蚁群算法,最短路径问题,
+date: 2021-04-16 12:00:00 +0800
+categories: [智能计算]
+tags: [蚁群算法, 最短路径问题]
+author: MobtgZhang
 ---
 
 # 1.背景
@@ -131,9 +131,9 @@ $$q_{i}=\sum\limits_{j=1}^{i}f(x_{j})$$
 (3) 随机生成$r\in{[0,1]}$，若$q_{i}>r$，则选择个体$x_{i}$。
 
 程序运行之后的结果信息如下所示：
-<img src="/images/posts/CIAlgorithms/202104160001.png" width="80%" alt="最优路径可视化表示图" />
+<img src="/assets/img/posts/CIAlgorithms/202104160001.png" width="80%" alt="最优路径可视化表示图" />
 每次迭代过程中平均路径长度的变化如下所示：
-<img src="/images/posts/CIAlgorithms/202104160002.png" width="80%" alt="退火算法迭代中长度变化图" />
+<img src="/assets/img/posts/CIAlgorithms/202104160002.png" width="80%" alt="退火算法迭代中长度变化图" />
 
 &ensp;&ensp;&ensp;&ensp;由平均路径长度的变化图可知，蚁群算法是趋近于收敛的。程序的结果虽然并不是很好，经过多次训练之后程序结果可能会更佳。笔者将蚁群算法用python版本和MATLAB版本进行的实现，具体代码可以查找笔者[GitHub](https://github.com/MobtgZhang/CIAlgorithms/tree/main/ACO)。
 ## 5.2 参数的选择

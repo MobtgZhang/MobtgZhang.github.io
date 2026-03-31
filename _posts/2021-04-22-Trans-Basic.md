@@ -1,9 +1,9 @@
 ---
-layout: post
-title: 翻译模型在知识图谱中的应用(一):基本模型
-categories: 翻译模型
-description: 翻译模型在知识图谱中的嵌入表示
-keywords: 翻译模型,知识图谱,Embeddings
+title: "翻译模型在知识图谱中的应用(一):基本模型"
+date: 2021-04-22 12:00:00 +0800
+categories: [翻译模型]
+tags: [翻译模型, 知识图谱, Embeddings]
+author: MobtgZhang
 ---
 # 1. 翻译模型简介
 &ensp;&ensp;&ensp;&ensp;将实体向量表示(Embedding)在低维稠密向量空间中，然后进行计算和推理.应用的主要方向有三元组分类、链接预测等问题.具体的一些翻译模型主要有:基本翻译模型(TransE, TransH, TransR, etc)、双线性(RESCAL, DisMult, ComplEx, etc)、双曲几何(Poincare, MuRE, etc)、神经网络(ConvE, CapsE, etc)、旋转(RotatE, QuatE, DihEdral, etc)等等类别,近几年对于翻译模型有很多不同的变种,在接下来几篇博文中会详细梳理这些翻译模型.
@@ -38,7 +38,7 @@ $$S_{(h,r,t)}^{\prime}=\left\{(h^{\prime},r,t)\left|h^{\prime}\in{E}\right.\righ
 
 &ensp;&ensp;&ensp;&ensp;实际上TransE模型就是直接计算出$d(h+r,t)=\left|\left|(h+r)-t\right|\right|\approx{0}$来对实体和关系建模,将它们映射到相同的向量空间中,如图所示.
 <div>
-<p style="text-align:center;"><img src="/images/posts/TransModel/TransE.png" width="35%" alt="TransE模型表示图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/TransModel/TransE.png" width="35%" alt="TransE模型表示图" /></p>
 </div>
 ## 2.2 TransH模型
 &ensp;&ensp;&ensp;&ensp;TransE是一种有效的方法,同时能够获得比较好的预测结果,虽然可以在大量数据的条件下可以快速有效进行训练,但是模型过于简单,并不能够很好的表征实体对之间的语义关系.另外对于处理负载关系数据(一对多、多对一和多对多)时候,过于简单的假设可能导致错误的表征,尤其是对于一对多的情形,即同一个头实体$h$和关系$r$可能对应多个尾实体,这样训练之后的结果可能是$h_{1}\approx{h_{2}}\approx{h_{3}}$,这明显是错误的,需要对此进一步进行改进.这样TransH模型就被提出来了.知识图谱是一种多元关系表示的图,其中包含有一些实体(节点)和关系(不同类型的边)组成.一个边的示例代表一个事实,包含头实体、关系和尾实体,通常表示为$(h,r,t)$.知识图谱依然存在以下的两个主要的挑战:
@@ -57,7 +57,7 @@ $$S_{(h,r,t)}^{\prime}=\left\{(h^{\prime},r,t)\left|h^{\prime}\in{E}\right.\righ
 假设一个三元组(h,r,t)对应的向量分别是h,r,t,关系r的对应投影矩阵设为$w_{r}$,如图所示
 
 <div>
-<p style="text-align:center;"><img src="/images/posts/TransModel/TransH.png" width="35%" alt="TransH模型向量图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/TransModel/TransH.png" width="35%" alt="TransH模型向量图" /></p>
 </div>
 
 &ensp;&ensp;&ensp;&ensp;总之,TransH中有以下的一些基本思想:
@@ -100,7 +100,7 @@ $C$是一个衡量约束项的重要性的一个超参数.设每个tail对应的
 &ensp;&ensp;&ensp;&ensp;TransR模型的主要思路如下所示,如图:
 
 <div>
-<p style="text-align:center;"><img src="/images/posts/TransModel/TransR.png" width="50%" alt="TransH模型向量图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/TransModel/TransR.png" width="50%" alt="TransH模型向量图" /></p>
 </div>
 
 &ensp;&ensp;&ensp;&ensp;假设实体对(h,r,t),首先根据当前的关系r将头尾实体分别映射到关系空间中$h_{r},t_{r}$,然后在关系空间中建模$h_{r}+r\approx{t_{r}}$.另外在特定的关系情况下,实体对通常表现出不同的模式,因而不能单纯地将关系直接与实体对进行操作,通过将不同的头尾实体对聚类成组,并为每个组学习不同的关系向量来扩展TransR模型,这种模型在论文中称为CTransR模型.
@@ -135,7 +135,7 @@ $$d(h+r,t)=\left|\left|h_{r,c}+r_{c}-t_{r,c}\right|\right|_{2}^{2}+\alpha\left|\
 
 &ensp;&ensp;&ensp;&ensp;TransD模型如图所示
 <div>
-<p style="text-align:center;"><img src="/images/posts/TransModel/TransD.png" width="60%" alt="TransH模型向量图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/TransModel/TransD.png" width="60%" alt="TransH模型向量图" /></p>
 </div>
 
 &ensp;&ensp;&ensp;&ensp;定义了两个向量,第一个向量表征实体或者关系的语义,另外一个向量(投影向量)表示如何将实体从实体空间映射到关系空间中,因此每个实体对有唯一的矩阵.矩阵$M_{rh},M_{rt}$分别是实体$h,t$的映射矩阵.这样就会得到

@@ -1,9 +1,9 @@
 ---
-layout: post
 title: ACL会议一些重要的论文和代码演示
-categories: 论文
-description: ACL会议重要的论文以及代码
-keywords: ACL会议,论文合集,代码合集
+date: 2021-04-27 12:00:00 +0800
+categories: [论文]
+tags: [ACL会议, 论文合集, 代码合集]
+author: MobtgZhang
 ---
 # ACL 2019 会议一些重要论文
 

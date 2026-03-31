@@ -1,9 +1,9 @@
 ---
-layout: post
 title: 数据集大合集
-categories: 数据集
-description: 一些常见的数据集等等
-keywords: 数据集
+date: 2021-04-27 12:00:00 +0800
+categories: [数据集]
+tags: [数据集]
+author: MobtgZhang
 ---
 这里介绍一些常见的数据集,用作研究或者学习的一些东西.
 # Kaggle竞赛

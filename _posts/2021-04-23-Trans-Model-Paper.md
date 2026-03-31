@@ -1,9 +1,9 @@
 ---
-layout: post
 title: 知识表征学习必读论文
-categories: 论文
-description: 翻译模型在知识图谱中的嵌入表示
-keywords: 翻译模型,知识图谱,Embeddings,KRL,KE,知识表征学习,知识嵌入
+date: 2021-04-23 12:00:00 +0800
+categories: [论文]
+tags: [翻译模型, 知识图谱, Embeddings, KRL, KE, 知识表征学习, 知识嵌入]
+author: MobtgZhang
 ---
 # 总结性论文
 * * 论文标题: Representation Learning: A Review and New Perspectives;
@@ -194,7 +194,7 @@ keywords: 翻译模型,知识图谱,Embeddings,KRL,KE,知识表征学习,知识�
 * 一种基于双向模型的多种链接预测模型
   * 论文题目: On Multi-Relational Link Prediction with Bilinear Models.
   * 论文作者: Yanjie Wang, Rainer Gemulla, Hui Li. AAAI 2018.
-  * [论文地址](),[论文源码]()
+  * 论文地址：暂无，论文源码：暂无
   * 描述:主要目的是探索文献中提出的用于指示图谱嵌入的各种双线性模型的表达性和它们之间的联系.这篇论文中还提供了证据,表明多个双线性模型的关系级合奏可以实现最新的预测性能.
 * 一种2D卷积神经网络的模型
   * 论文题目: Convolutional 2D Knowledge Graph Embeddings.

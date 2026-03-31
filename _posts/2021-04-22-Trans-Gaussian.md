@@ -1,9 +1,9 @@
 ---
-layout: post
-title: 翻译模型在知识图谱中的应用(二):基于高斯模型
-categories: 翻译模型
-description: 翻译模型在知识图谱中的嵌入表示
-keywords: 翻译模型,知识图谱,Embeddings
+title: "翻译模型在知识图谱中的应用(二):基于高斯模型"
+date: 2021-04-22 12:00:00 +0800
+categories: [翻译模型]
+tags: [翻译模型, 知识图谱, Embeddings]
+author: MobtgZhang
 ---
 # 1. 简介
 &ensp;&ensp;&ensp;&ensp;在上一次博文中重点讨论了一些用于生成Embedding预训练向量最为基本的模型,例如TransE、TransR、TransH等等很多模型,但是这些模型中存在有多种不确定的影响因素，所以直接以距离模型稍微有些欠缺.因此提出一种基于高斯分布的模型来对Embedding进行预训练.
@@ -70,7 +70,7 @@ $$\forall\in{\epsilon\cup\mathcal{R}},c_{\min}I\leq{\Sigma_{l}}\leq{c_{\max}I},c
 &ensp;&ensp;&ensp;&ensp;TransG模型<sup>2</sup>也是一种高斯分布的模型,它主要解决的问题是同一种关系在不同的实体对上的语义是不同的.在TransE模型中对关系进行PCA降维可视化处理,其中点的位置代表头尾实体的向量差值$t-h$,从下图中可以看出同一种关系连接不同类型的实体对的时候,其会聚类在不同的簇中,所以这样的问题是确实存在的.
 
 <div>
-<p style="text-align:center;"><img src="/images/posts/TransModel/TransG.png" width="35%" alt="TransG模型中同一种关系不同实体对上语义可视化图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/TransModel/TransG.png" width="35%" alt="TransG模型中同一种关系不同实体对上语义可视化图" /></p>
 </div>
 
 &ensp;&ensp;&ensp;&ensp;论文中使用到了贝叶斯非参数高斯混合模型(Bayesuan non-parametric mixture embedding model)对一个关系生成多个翻译部分,它能够自动发现关系的语义簇,根据三元组的特定语义得到当中最佳部分.
