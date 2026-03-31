@@ -1,0 +1,25 @@
+/* 开源页双列卡片 */
+.open-source-page {
+  .open-source-columns {
+    align-items: stretch;
+  }
+
+  .repo-card {
+    position: relative;
+    min-height: 7.5rem;
+    border-radius: 0.35rem;
+  }
+
+  .repo-card__excerpt {
+    line-height: 1.45;
+  }
+
+  .repo-card__date {
+    position: absolute;
+    left: 1rem;
+    bottom: 0.65rem;
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+    opacity: 0.9;
+  }
+}
