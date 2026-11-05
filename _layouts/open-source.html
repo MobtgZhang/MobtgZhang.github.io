@@ -4,6 +4,47 @@ layout: default
 
 {% include lang.html %}
 
+{%- comment -%}
+  开源项目页。
+
+  数据优先级：
+    1. site.data.github_public_repos —— 构建期从 GitHub API 抓取（可能因限流为空）
+    2. site.data.open_source_projects —— 仓库内的静态兜底数据
+
+  页面加载后，assets/js/open-source.js 会在浏览器端再次拉取 GitHub API，
+  用访客自己的额度刷新 star / fork / 语言 / 更新时间等数字，
+  因此展示的始终是实时数据。
+{%- endcomment -%}
+
+{%- assign live = site.data.github_public_repos -%}
+{%- assign static = site.data.open_source_projects -%}
+
+{%- if live and live.size > 0 -%}
+  {%- assign repos = live -%}
+  {%- assign has_live = true -%}
+{%- else -%}
+  {%- assign repos = static.all -%}
+  {%- assign has_live = false -%}
+{%- endif -%}
+
+{%- comment -%}
+  精选项目固定为主页那 6 个高星仓库（静态清单，不随 API 变动）。
+  全部仓库按最近更新时间倒序，只展示最近更新的若干个，可展开查看更多。
+{%- endcomment -%}
+{%- assign featured = static.featured | default: empty -%}
+{%- assign featured_names = "" | split: "" -%}
+{%- for f in featured -%}
+  {%- assign featured_names = featured_names | push: f.name -%}
+{%- endfor -%}
+
+{%- comment -%}
+  「全部仓库」只显示最近更新的前 8 个（可展开全部）。
+  构建期：live 数据已由 API 按 updated 排序；静态兜底数据在 YAML 中也是按更新时间倒序排好的。
+{%- endcomment -%}
+{%- assign recent_limit = 8 -%}
+{%- assign recent = repos | slice: 0, recent_limit -%}
+{%- assign rest = repos | slice: recent_limit, repos.size -%}
+
 <article class="px-1 open-source-page">
   <h1 class="dynamic-title">{{ page.title }}</h1>
 
@@ -11,36 +52,153 @@ layout: default
     {{ content }}
   </div>
 
-  {% assign gh_repos = site.data.github_public_repos %}
-  {% if gh_repos and gh_repos.size > 0 %}
-    {% assign raw_repos = gh_repos | where_exp: 'r', 'r.fork != true' %}
-    {% assign interesting = raw_repos | sort: 'stargazers_count' | reverse %}
-    {% assign recent = raw_repos | sort: 'updated_at' | reverse %}
-    {% assign blurbs = site.data.open_source_blurbs %}
+  <!-- ============ 顶部统计概览 ============ -->
+  <div class="os-stats" id="os-stats">
+    <div class="os-stat">
+      <span class="os-stat__value" id="os-stat-repos">{{ repos.size }}</span>
+      <span class="os-stat__label">{{ site.data.locales[include.lang].os.repositories | default: "公开仓库" }}</span>
+    </div>
+    <div class="os-stat">
+      <span class="os-stat__value" id="os-stat-stars">—</span>
+      <span class="os-stat__label">{{ site.data.locales[include.lang].os.total_stars | default: "累计 Star" }}</span>
+    </div>
+    <div class="os-stat">
+      <span class="os-stat__value" id="os-stat-forks">—</span>
+      <span class="os-stat__label">{{ site.data.locales[include.lang].os.total_forks | default: "累计 Fork" }}</span>
+    </div>
+    <div class="os-stat">
+      <span class="os-stat__value" id="os-stat-langs">—</span>
+      <span class="os-stat__label">{{ site.data.locales[include.lang].os.languages | default: "使用语言" }}</span>
+    </div>
+    <div class="os-stat os-stat--live">
+      <span class="os-stat__value" id="os-stat-updated">—</span>
+      <span class="os-stat__label">{{ site.data.locales[include.lang].os.last_update | default: "最近更新" }}</span>
+    </div>
+  </div>
 
-    <div class="row g-3 open-source-columns">
-      <div class="col-lg-6">
-        <h2 class="h5 border-bottom pb-2 mb-3">有意思的项目</h2>
-        <p class="text-muted small mb-3">按 Star 数排序；简介来自仓库说明或下方数据文件中的补充文案。</p>
-        {% for repo in interesting limit: 12 %}
-          {% include open-source-repo-card.html repo=repo blurbs=blurbs %}
-        {% endfor %}
-      </div>
-      <div class="col-lg-6">
-        <h2 class="h5 border-bottom pb-2 mb-3">最近更新</h2>
-        <p class="text-muted small mb-3">按 GitHub 上的最近推送时间排序。</p>
-        {% for repo in recent limit: 12 %}
-          {% include open-source-repo-card.html repo=repo blurbs=blurbs %}
-        {% endfor %}
+  {%- if featured.size > 0 %}
+  <!-- ============ 精选项目：大卡片 ============ -->
+  <section class="os-featured">
+    <h2 class="os-section-title">
+      <i class="fas fa-star" aria-hidden="true"></i>
+      {{ site.data.locales[include.lang].os.featured | default: "精选项目" }}
+    </h2>
+    <div class="os-featured__grid">
+      {%- for f in featured %}
+        <a href="{{ f.url }}" target="_blank" rel="noopener noreferrer" class="os-feature" data-repo="{{ f.name }}">
+          <div class="os-feature__top">
+            <span class="os-feature__name">{{ f.name }}</span>
+            <span class="os-feature__lang" data-lang-badge="{{ f.language }}">
+              <span class="os-dot"></span>{{ f.language }}
+            </span>
+          </div>
+          <p class="os-feature__desc">{{ f.description }}</p>
+          <div class="os-feature__meta">
+            <span class="os-metric"><i class="fas fa-star" aria-hidden="true"></i><b data-star>{{ f.stars }}</b></span>
+            <span class="os-metric"><i class="fas fa-code-branch" aria-hidden="true"></i><b data-fork>{{ f.forks | default: 0 }}</b></span>
+            <span class="os-metric os-metric--time"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i><b data-updated>{{ f.updated | default: "—" }}</b></span>
+          </div>
+          <div class="os-feature__bar" aria-hidden="true"><span data-lang-bar style="width: 0%"></span></div>
+        </a>
+      {%- endfor %}
+    </div>
+  </section>
+  {%- endif %}
+
+  <!-- ============ 全部仓库：紧凑列表 ============ -->
+  <section class="os-all">
+    <div class="os-section-head">
+      <h2 class="os-section-title">
+        <i class="fas fa-box-archive" aria-hidden="true"></i>
+        {{ site.data.locales[include.lang].os.all_repos | default: "全部仓库" }}
+      </h2>
+      <div class="os-filters" role="group" aria-label="{{ site.data.locales[include.lang].os.filter | default: '筛选' }}">
+        <input type="search" id="os-search" class="os-search"
+               placeholder="{{ site.data.locales[include.lang].os.search | default: '搜索仓库…' }}"
+               aria-label="{{ site.data.locales[include.lang].os.search | default: '搜索仓库' }}">
+        <div class="os-lang-filter" id="os-lang-filter"></div>
       </div>
     </div>
-  {% else %}
-    <div class="alert alert-secondary" role="note">
-      <p class="mb-0">
-        未能读取公开仓库列表。本地构建请在环境变量中设置
-        <code>JEKYLL_GITHUB_TOKEN</code>
-        后重试；推送到 GitHub Pages 后一般由 Actions 自动注入元数据。
-      </p>
+
+    <div class="os-table" id="os-table" role="table">
+      <div class="os-row os-row--head" role="row">
+        <span role="columnheader">{{ site.data.locales[include.lang].os.repo | default: "仓库" }}</span>
+        <span role="columnheader">{{ site.data.locales[include.lang].os.language | default: "语言" }}</span>
+        <span role="columnheader">{{ site.data.locales[include.lang].os.stars | default: "Star" }}</span>
+        <span role="columnheader">{{ site.data.locales[include.lang].os.forks | default: "Fork" }}</span>
+        <span role="columnheader">{{ site.data.locales[include.lang].os.updated | default: "更新" }}</span>
+      </div>
+      <!-- 静态兜底行，构建期渲染：前 recent_limit 个默认可见，其余折叠 -->
+      {%- for repo in recent %}
+        <a href="{{ repo.url | default: repo.html_url }}" target="_blank" rel="noopener noreferrer" class="os-row os-row--repo"
+           role="row" data-repo="{{ repo.name }}"
+           data-lang="{{ repo.language | default: 'other' }}"
+           data-stars="{{ repo.stars | default: repo.stargazers_count | default: 0 }}"
+           data-forks="{{ repo.forks | default: repo.forks_count | default: 0 }}"
+           data-updated="{{ repo.updated_at | default: repo.updated | default: '' }}"
+           data-description="{{ repo.description | default: '' }}">
+          <span class="os-row__name" role="cell">
+            <i class="fas fa-book-open" aria-hidden="true"></i>
+            <span class="os-row__label">
+              <b>{{ repo.name }}</b>
+              <small>{{ repo.description | default: "" }}</small>
+            </span>
+          </span>
+          <span class="os-row__lang" role="cell"><span class="os-dot"></span>{{ repo.language | default: "—" }}</span>
+          <span class="os-row__num" role="cell"><i class="fas fa-star" aria-hidden="true"></i>{{ repo.stars | default: repo.stargazers_count | default: 0 }}</span>
+          <span class="os-row__num" role="cell"><i class="fas fa-code-branch" aria-hidden="true"></i>{{ repo.forks | default: repo.forks_count | default: 0 }}</span>
+          <span class="os-row__time" role="cell">{{ repo.updated_at | default: repo.updated | default: "—" }}</span>
+        </a>
+      {%- endfor %}
+      {%- for repo in rest %}
+        <a href="{{ repo.url | default: repo.html_url }}" target="_blank" rel="noopener noreferrer" class="os-row os-row--repo is-collapsed"
+           role="row" data-repo="{{ repo.name }}"
+           data-lang="{{ repo.language | default: 'other' }}"
+           data-stars="{{ repo.stars | default: repo.stargazers_count | default: 0 }}"
+           data-forks="{{ repo.forks | default: repo.forks_count | default: 0 }}"
+           data-updated="{{ repo.updated_at | default: repo.updated | default: '' }}"
+           data-description="{{ repo.description | default: '' }}">
+          <span class="os-row__name" role="cell">
+            <i class="fas fa-book-open" aria-hidden="true"></i>
+            <span class="os-row__label">
+              <b>{{ repo.name }}</b>
+              <small>{{ repo.description | default: "" }}</small>
+            </span>
+          </span>
+          <span class="os-row__lang" role="cell"><span class="os-dot"></span>{{ repo.language | default: "—" }}</span>
+          <span class="os-row__num" role="cell"><i class="fas fa-star" aria-hidden="true"></i>{{ repo.stars | default: repo.stargazers_count | default: 0 }}</span>
+          <span class="os-row__num" role="cell"><i class="fas fa-code-branch" aria-hidden="true"></i>{{ repo.forks | default: repo.forks_count | default: 0 }}</span>
+          <span class="os-row__time" role="cell">{{ repo.updated_at | default: repo.updated | default: "—" }}</span>
+        </a>
+      {%- endfor %}
     </div>
-  {% endif %}
+
+    <p class="os-empty" id="os-empty" hidden>
+      {{ site.data.locales[include.lang].os.no_result | default: "没有匹配的仓库" }}
+    </p>
+
+    {%- if rest.size > 0 %}
+    <button type="button" class="os-more" id="os-more" aria-expanded="false"
+            aria-controls="os-table" data-more-label="{{ site.data.locales[include.lang].os.show_more | default: '展开全部仓库' }}"
+            data-less-label="{{ site.data.locales[include.lang].os.show_less | default: '收起' }}">
+      <i class="fas fa-chevron-down" aria-hidden="true"></i>
+      <span class="os-more__text">{{ site.data.locales[include.lang].os.show_more | default: "展开全部仓库" }}</span>
+      <b class="os-more__count">{{ rest.size }}</b>
+    </button>
+    {%- endif %}
+  </section>
+
+  {%- if has_live %}
+  <p class="os-source-note">
+    <i class="fas fa-sync-alt" aria-hidden="true"></i>
+    {{ site.data.locales[include.lang].os.live_note | default: "数据由 GitHub API 实时提供，页面加载后会自动刷新。" }}
+  </p>
+  {%- else %}
+  <p class="os-source-note os-source-note--warn">
+    <i class="fas fa-triangle-exclamation" aria-hidden="true"></i>
+    {{ site.data.locales[include.lang].os.fallback_note | default: "当前展示的是本地缓存数据，页面加载后将尝试从 GitHub API 刷新。" }}
+  </p>
+  {%- endif %}
 </article>
+
+<script defer src="{{ '/assets/js/open-source.js' | relative_url }}"></script>

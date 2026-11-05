@@ -65,6 +65,16 @@
 
 {% include jsdelivr-combine.html urls=urls %}
 
+<!-- webmeji: 右下角的动态漫画形象（全站加载，每个页面都显示） -->
+{% if site.webmeji.enabled %}
+  {% include webmeji.html %}
+{% endif %}
+
+<!-- weather: 右上角的液态玻璃天气插件 -->
+{% if site.weather.enabled %}
+  <link rel="stylesheet" href="{{ '/assets/css/weather.css' | relative_url }}">
+{% endif %}
+
 {% case page.layout %}
   {% when 'home', 'categories', 'post', 'page' %}
     {% assign js = page.layout %}

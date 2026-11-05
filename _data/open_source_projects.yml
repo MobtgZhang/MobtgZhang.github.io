@@ -1,0 +1,140 @@
+# 开源页数据（GitHub API 不可用时的静态兜底）
+#
+# 页面加载后 assets/js/open-source.js 会直接从 GitHub API 拉取实时数据并覆盖这里的内容，
+# 不做任何本地缓存。这里的数值仅作为首屏占位与 API 失败时的兜底。
+#
+# 分组约定：
+#   featured —— 精选项目，对应主页「有意思的项目」那 6 个高星仓库
+#   all      —— 全部仓库，按最近更新时间倒序排列（最近的排在最前）
+
+# ---------- 精选项目：主页的 6 个高星仓库 ----------
+featured:
+  - name: sues-thesis
+    url: https://github.com/mobtgzhang/sues-thesis
+    stars: 50
+    forks: 5
+    language: TeX
+    updated: "2024-06-01"
+    description: 上海工程技术大学硕士学位论文 LaTeX 模板，支持双盲审格式与参考文献样式，是本校研究生撰写毕业论文的实用工具。
+  - name: CMRC2018
+    url: https://github.com/mobtgzhang/CMRC2018
+    stars: 9
+    forks: 2
+    language: Python
+    updated: "2021-05-01"
+    description: 中文机器阅读理解数据集 CMRC2018 的基线实现与实验记录，包含数据处理流程与评测脚本复现。
+  - name: VHD-Boot-Olds
+    url: https://github.com/mobtgzhang/VHD-Boot-Olds
+    stars: 9
+    forks: 1
+    language: Rust
+    updated: "2024-03-12"
+    description: 从可读写 VHD 虚拟硬盘文件直接引导 Linux 的启动加载器，探索以 VHD 作为系统介质的可行性。
+  - name: zh_latex_journals
+    url: https://github.com/mobtgzhang/zh_latex_journals
+    stars: 7
+    forks: 1
+    language: TeX
+    updated: "2023-11-08"
+    description: 收录国内核心期刊的 LaTeX 投稿模板，支持一键排版与格式检查。
+  - name: 2021MathorCupBigDataCompetition
+    url: https://github.com/mobtgzhang/2021MathorCupBigDataCompetition
+    stars: 7
+    forks: 1
+    language: Jupyter Notebook
+    updated: "2021-07-15"
+    description: 2021 年 MathorCup 高校数学建模大数据竞赛 A 题（二手车价格预测）完整解决方案。
+  - name: sues-mm
+    url: https://github.com/mobtgzhang/sues-mm
+    stars: 6
+    forks: 1
+    language: TeX
+    updated: "2023-05-20"
+    description: 上海工程技术大学校级数学建模竞赛论文 LaTeX 模板，含建模报告排版与图表规范。
+
+# ---------- 全部仓库：按最近更新时间倒序 ----------
+all:
+  - name: NovaOS
+    url: https://github.com/mobtgzhang/NovaOS
+    stars: 0
+    forks: 0
+    language: Rust
+    updated: "2025-12-02"
+    description: 基于 Rust 的实验性桌面操作系统，采用微内核与能力安全模型。
+  - name: nt61-system
+    url: https://github.com/mobtgzhang/nt61-system
+    stars: 0
+    forks: 0
+    language: Rust
+    updated: "2025-11-18"
+    description: 使用 Rust 重写 Windows NT 6.1 系统组件。
+  - name: nt61-core
+    url: https://github.com/mobtgzhang/nt61-core
+    stars: 0
+    forks: 0
+    language: Rust
+    updated: "2025-11-10"
+    description: NT 6.1 内核的 Rust 实现。
+  - name: nt61-desktop
+    url: https://github.com/mobtgzhang/nt61-desktop
+    stars: 0
+    forks: 0
+    language: Rust
+    updated: "2025-10-28"
+    description: NT 6.1 桌面环境的 Rust 实现。
+  - name: ClawMind
+    url: https://github.com/mobtgzhang/ClawMind
+    stars: 0
+    forks: 0
+    language: Go
+    updated: "2025-09-14"
+    description: 基于 Go 和 Vue 构建的 Agent 聊天应用。
+  - name: OpenCoreMultiPlatform
+    url: https://github.com/mobtgzhang/OpenCoreMultiPlatform
+    stars: 0
+    forks: 0
+    language: C
+    updated: "2025-08-06"
+    description: 可扩展的 OpenCore UEFI 引导框架，支持 AArch64 与 x86_64 多平台。
+  - name: sues-thesis
+    url: https://github.com/mobtgzhang/sues-thesis
+    stars: 50
+    forks: 5
+    language: TeX
+    updated: "2024-06-01"
+    description: 上海工程技术大学硕士学位论文 LaTeX 模板，支持双盲审格式与参考文献样式。
+  - name: VHD-Boot-Olds
+    url: https://github.com/mobtgzhang/VHD-Boot-Olds
+    stars: 9
+    forks: 1
+    language: Rust
+    updated: "2024-03-12"
+    description: 从可读写 VHD 虚拟硬盘文件直接引导 Linux 的启动加载器。
+  - name: zh_latex_journals
+    url: https://github.com/mobtgzhang/zh_latex_journals
+    stars: 7
+    forks: 1
+    language: TeX
+    updated: "2023-11-08"
+    description: 收录国内核心期刊的 LaTeX 投稿模板，方便一键排版。
+  - name: sues-mm
+    url: https://github.com/mobtgzhang/sues-mm
+    stars: 6
+    forks: 1
+    language: TeX
+    updated: "2023-05-20"
+    description: 上海工程技术大学校级数学建模竞赛论文 LaTeX 模板。
+  - name: 2021MathorCupBigDataCompetition
+    url: https://github.com/mobtgzhang/2021MathorCupBigDataCompetition
+    stars: 7
+    forks: 1
+    language: Jupyter Notebook
+    updated: "2021-07-15"
+    description: 2021 年 MathorCup 高校数学建模大数据竞赛 A 题（二手车价格预测）完整解决方案。
+  - name: CMRC2018
+    url: https://github.com/mobtgzhang/CMRC2018
+    stars: 9
+    forks: 2
+    language: Python
+    updated: "2021-05-01"
+    description: 中文机器阅读理解数据集 CMRC2018 的基线实现与实验记录。

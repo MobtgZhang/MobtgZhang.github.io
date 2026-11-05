@@ -1,0 +1,34 @@
+<!-- webmeji — 全站右下角的动态漫画形象
+     Adapted from https://github.com/lars-rooij/webmeji (Unlicense / public domain).
+     Loaded on every page so the character follows the reader around the site. -->
+
+{%- comment -%}
+  页面过滤：由 site.webmeji.pages 控制。
+  - 留空（默认）      → 所有页面都显示
+  - 填 URL 前缀列表    → 只有匹配前缀的页面显示，例如 ['/', '/posts/']
+  - 页面 front matter 里设置 `webmeji: false` 可单独关闭该页
+{%- endcomment -%}
+
+{%- assign _wm_pages = site.webmeji.pages -%}
+{%- assign _wm_show = true -%}
+
+{%- if page.webmeji == false -%}
+  {%- assign _wm_show = false -%}
+{%- elsif _wm_pages == empty or _wm_pages == nil -%}
+  {%- assign _wm_show = true -%}
+{%- else -%}
+  {%- assign _wm_show = false -%}
+  {%- for _p in _wm_pages -%}
+    {%- if page.url == _p or page.url contains _p -%}
+      {%- assign _wm_show = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if _wm_show -%}
+<link rel="stylesheet" href="{{ '/assets/webmeji/webmeji.css' | relative_url }}">
+
+<script defer src="{{ '/assets/webmeji/config.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/webmeji/webmeji.js' | relative_url }}"></script>
+{%- endif -%}

@@ -1,0 +1,186 @@
+# 智能优化算法家谱
+#
+# 用于「脑图查看」页面的算法家谱图。
+#
+# 分族依据（按搜索机制而非提出年代划分）：
+#   evolution —— 进化计算：把"变异 + 选择"作为主要搜索动力
+#   swarm     —— 群智能：以群体协作与信息共享为主要搜索动力
+#   teaching  —— 教学 / 谐振类：以"知识传递"或"和声记忆"为隐喻
+#   baseline  —— 基准方法：其它元启发式的对照组
+#
+# 每条记录的字段：
+#   key       —— 脑图节点上的短标签（带缩写）
+#   title     —— 完整中文名
+#   abbr      —— 英文缩写
+#   year      —— 首次提出的年份
+#   authors   —— 提出者
+#   venue     —— 首发论文出处
+#   url       —— 站内文章链接
+#   summary   —— 一句话说明这个算法"搜什么、怎么搜"
+#
+# 年份与出处均来自对应文章内引用的原始文献，未作推测。
+
+families:
+  - id: evolution
+    name: 进化计算
+    short: 进化
+    color: "#3fb950"
+    blurb: 把生物进化抽象成"变异 + 选择"的通用搜索框架，靠种群多样性驱动跳出局部最优。
+    members:
+      - key: 进化策略 ES
+        title: 进化策略
+        abbr: ES
+        year: 1960s
+        authors: Rechenberg、Schwefel
+        venue: TU Berlin（1960s–1970s）
+        url: /posts/Evolution-Strategy/
+        summary: 最早的一批进化计算方法，以高斯步长变异配合 (μ, λ) 选择，直接作用于连续变量。
+      - key: 遗传算法 GA
+        title: 遗传算法
+        abbr: GA
+        year: 1975
+        authors: Holland
+        venue: Adaptation in Natural and Artificial Systems
+        url: /posts/Genetic-Algorithm/
+        summary: 用模式定理系统阐述编码、选择、交叉、变异的框架，是群体智能与进化计算的共同源头。
+      - key: 差分进化 DE
+        title: 差分进化
+        abbr: DE
+        year: 1997
+        authors: Storn、Price
+        venue: Journal of Global Optimization
+        url: /posts/Differential-Evolution/
+        summary: 用种群内差分向量作变异方向，步长尺度自适应，无需编码即可处理旋转问题。
+      - key: 协方差矩阵自适应进化策略 CMA-ES
+        title: 协方差矩阵自适应进化策略
+        abbr: CMA-ES
+        year: 2001
+        authors: Hansen、Ostermeier
+        venue: Evolutionary Computation
+        url: /posts/CMA-ES/
+        summary: 学习完整协方差矩阵以捕捉维度相关性，是无导数连续优化公认的金标准。
+
+  - id: swarm
+    name: 群智能
+    short: 群智能
+    color: "#58a6ff"
+    blurb: 模拟鸟群、蜂群、鱼群等群体的集体行为，靠局部通信与简单的个体规则涌现出全局寻优能力。
+    members:
+      - key: 蚁群 ACO
+        title: 蚁群算法
+        abbr: ACO
+        year: 1991
+        authors: Dorigo、Maniezzo、Colorni
+        venue: ECAL 1991 / IEEE TSMC-B 1996
+        url: /posts/Ant-colony-optimization/
+        summary: 用信息素浓度承载路径质量，在离散组合优化（尤其 TSP）上优势突出。
+      - key: 粒子群 PSO
+        title: 粒子群优化
+        abbr: PSO
+        year: 1995
+        authors: Kennedy、Eberhart
+        venue: ICNN 1995
+        url: /posts/Particle-Swarm-Optimization/
+        summary: 粒子按自身经验与群体最优协同飞行，只需少量超参数即可收敛，是最常用的基准群智能算法。
+      - key: 人工蜂群 ABC
+        title: 人工蜂群算法
+        abbr: ABC
+        year: 2005
+        authors: Karaboga、Basturk
+        venue: Journal of Global Optimization
+        url: /posts/Artificial-Bee-Colony/
+        summary: 借用蜜蜂"侦察—雇佣—放弃"的分工机制，用较少的控制参数完成全局搜索。
+      - key: 萤火虫 FA
+        title: 萤火虫算法
+        abbr: FA
+        year: 2008
+        authors: Yang
+        venue: SAGA 2009
+        url: /posts/Firefly-Algorithm/
+        summary: 个体被更亮的同类吸引，亮度编码目标函数值，天然适合多峰寻优。
+      - key: 布谷鸟搜索 CS
+        title: 布谷鸟搜索
+        abbr: CS
+        year: 2009
+        authors: Yang、Deb
+        venue: NaBIC 2009
+        url: /posts/Cuckoo-Search/
+        summary: 借 Lévy 飞行实现长距离跳跃，并用"巢穴占位"机制维持种群多样性。
+      - key: 蝙蝠 BA
+        title: 蝙蝠算法
+        abbr: BA
+        year: 2010
+        authors: Yang
+        venue: NICSO 2010
+        url: /posts/Bat-Algorithm/
+        summary: 用声呐的频率与响度自适应调节搜索步长，是较早把参数自适应做成双机制的算法。
+      - key: 鲸鱼优化 WOA
+        title: 鲸鱼优化算法
+        abbr: WOA
+        year: 2016
+        authors: Mirjalili、Lewis
+        venue: Advances in Engineering Software
+        url: /posts/Whale-Optimization-Algorithm/
+        summary: 模拟鲸鱼"螺旋围捕"与"声呐网罗"两种捕猎方式，用线性递减系数平衡探索与开发。
+      - key: 灰狼优化 GWO
+        title: 灰狼优化算法
+        abbr: GWO
+        year: 2014
+        authors: Mirjalili、Mirjalili、Lewis
+        venue: Advances in Engineering Software
+        url: /posts/Grey-Wolf-Optimizer/
+        summary: 狼群按 α、β、δ、ω 划分等级并向精英群体靠拢，结构简洁，是 WOA 的姊妹算法。
+      - key: 哈里斯鹰 HHO
+        title: 哈里斯鹰优化
+        abbr: HHO
+        year: 2019
+        authors: Heidari、Mirjalili 等
+        venue: Future Generation Computer Systems
+        url: /posts/Harris-Hawks-Optimization/
+        summary: 模拟鹰群"软扑"与"硬扑"的多阶段围捕，用自适应收缩因子控制逃逸反应。
+      - key: 麻雀搜索 SSA
+        title: 麻雀搜索算法
+        abbr: SSA
+        year: 2020
+        authors: Xue、Shen
+        venue: Systems Science & Control Engineering
+        url: /posts/Sparrow-Search-Algorithm/
+        summary: 以发现者与跟随者、警戒者与拓食者的角色切换，实现探索与开发的自适应平衡。
+
+  - id: teaching
+    name: 教学与谐振
+    short: 教学
+    color: "#d29922"
+    blurb: 不建模生物群体，而是借用"老师授课—学生学习"或"乐队和声"来组织搜索方向的更新。
+    members:
+      - key: 和声搜索 HS
+        title: 和声搜索
+        abbr: HS
+        year: 2001
+        authors: Geem、Kim、Loganathan
+        venue: Simulation
+        url: /posts/Harmony-Search/
+        summary: 维护"和声记忆库"，每个个体在记忆库与随机游走之间取样并微调，工程背景浓厚。
+      - key: 教与学 TLBO
+        title: 教与学优化
+        abbr: TLBO
+        year: 2011
+        authors: Rao、Savsani、Vakharia
+        venue: Computer-Aided Design
+        url: /posts/Teaching-Learning-Optimization/
+        summary: 以班级为种群模型：教师向全体输送知识，优等生再反过来教差生，只有两个更新算子。
+
+  - id: baseline
+    name: 经典基准
+    short: 基准
+    color: "#8b949e"
+    blurb: 不属于任何一个现代流派，但几乎所有新算法都会拿它们做对照组，也是理解搜索机制的最短路径。
+    members:
+      - key: 模拟退火 SA
+        title: 模拟退火算法
+        abbr: SA
+        year: 1983
+        authors: Kirkpatrick 等
+        venue: Science（Metropolis 准则）
+        url: /posts/Simulated-annealing-algorithm/
+        summary: 单一状态的爬山法，以温度控制接受劣解的概率跳出局部最优，是理解"跳出局部最优"的范本。

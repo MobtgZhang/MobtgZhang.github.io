@@ -1,0 +1,110 @@
+<!-- 天气插件：页面右上角的液态玻璃天气卡片
+     图标：Meteocons (https://github.com/basmilius/meteocons, MIT License)
+     玻璃质感：Adapted from
+       https://github.com/weatherwidget/weatherwidget.github.io (MIT License)
+     数据来源：Open-Meteo（免 API Key、支持 CORS）。
+     定位优先级：浏览器 Geolocation → IP 定位 → 站点默认城市。
+     天气必须在客户端渲染：Jekyll 构建时无法得知访客位置。 -->
+
+{%- assign _wm_city = site.weather.default_city | default: '上海' -%}
+{%- assign _wm_lat = site.weather.default_lat | default: 31.2304 -%}
+{%- assign _wm_lon = site.weather.default_lon | default: 121.4737 -%}
+
+<div id="weather-plugin"
+     class="weather-plugin"
+     data-default-lat="{{ _wm_lat }}"
+     data-default-lon="{{ _wm_lon }}"
+     data-default-city="{{ _wm_city }}"
+     data-locale="{{ include.lang | default: site.lang | default: 'zh-CN' }}">
+  <button type="button" class="weather-plugin__toggle" id="weather-plugin-toggle"
+          aria-label="Toggle weather widget" aria-expanded="false" aria-controls="weather-plugin-panel">
+    <span class="weather-plugin__toggle-icon" id="weather-plugin-toggle-icon" aria-hidden="true"></span>
+    <span class="weather-plugin__toggle-temp" id="weather-plugin-toggle-temp">--°</span>
+  </button>
+
+  <div class="weather-plugin__panel" id="weather-plugin-panel" role="dialog" aria-modal="false" aria-label="Weather" hidden>
+    <div class="weather-plugin__glass">
+      <div class="weather-plugin__particles" id="weather-plugin-particles" aria-hidden="true"></div>
+
+      <div class="weather-plugin__loading" id="weather-plugin-loading">
+        <span class="weather-plugin__spinner" aria-hidden="true"></span>
+        <span class="weather-plugin__loading-text" id="weather-plugin-loading-text">正在获取天气…</span>
+      </div>
+
+      <div class="weather-plugin__content" id="weather-plugin-content" hidden>
+        <header class="weather-plugin__header">
+          <div class="weather-plugin__place">
+            <i class="fas fa-location-dot" aria-hidden="true"></i>
+            <span id="weather-plugin-city">{{ _wm_city }}</span>
+          </div>
+          <div class="weather-plugin__clock">
+            <span id="weather-plugin-time">--:--</span>
+            <span id="weather-plugin-date">--</span>
+          </div>
+        </header>
+
+        <div class="weather-plugin__main">
+          <div class="weather-plugin__icon" id="weather-plugin-icon" aria-hidden="true"></div>
+          <div class="weather-plugin__reading">
+            <p class="weather-plugin__temp">
+              <span id="weather-plugin-temp">--</span><span class="weather-plugin__unit" id="weather-plugin-unit">°C</span>
+            </p>
+            <p class="weather-plugin__desc" id="weather-plugin-desc">--</p>
+            <p class="weather-plugin__feels" id="weather-plugin-feels">--</p>
+          </div>
+        </div>
+
+        <ul class="weather-plugin__details">
+          <li>
+            <i class="fas fa-tint" aria-hidden="true"></i>
+            <span class="weather-plugin__detail-value" id="weather-plugin-humidity">--%</span>
+            <span class="weather-plugin__detail-label" data-i18n="humidity">湿度</span>
+          </li>
+          <li>
+            <i class="fas fa-wind" aria-hidden="true"></i>
+            <span class="weather-plugin__detail-value" id="weather-plugin-wind">--</span>
+            <span class="weather-plugin__detail-label" data-i18n="wind">风速</span>
+          </li>
+          <li>
+            <i class="fas fa-cloud" aria-hidden="true"></i>
+            <span class="weather-plugin__detail-value" id="weather-plugin-clouds">--%</span>
+            <span class="weather-plugin__detail-label" data-i18n="clouds">云量</span>
+          </li>
+        </ul>
+
+        <!-- 近 24 小时 -->
+        <section class="weather-plugin__section">
+          <h3 class="weather-plugin__section-title" data-i18n="hourly">近 24 小时</h3>
+          <div class="weather-plugin__hourly" id="weather-plugin-hourly-body"></div>
+        </section>
+
+        <!-- 近一周 -->
+        <section class="weather-plugin__section">
+          <h3 class="weather-plugin__section-title" data-i18n="daily">近 7 天</h3>
+          <div class="weather-plugin__daily" id="weather-plugin-daily-body"></div>
+        </section>
+
+        <footer class="weather-plugin__footer">
+          <div class="weather-plugin__lang" role="group" aria-label="Language">
+            <button type="button" class="weather-plugin__lang-btn" data-lang="zh" aria-pressed="false">中文</button>
+            <button type="button" class="weather-plugin__lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+          </div>
+          <div class="weather-plugin__actions">
+            <button type="button" class="weather-plugin__icon-btn" id="weather-plugin-locate" title="Use my location">
+              <i class="fas fa-crosshairs" aria-hidden="true"></i>
+              <span class="visually-hidden" data-i18n="locate">定位</span>
+            </button>
+            <button type="button" class="weather-plugin__icon-btn" id="weather-plugin-refresh" title="Refresh">
+              <i class="fas fa-rotate" aria-hidden="true"></i>
+              <span class="visually-hidden" data-i18n="refresh">刷新</span>
+            </button>
+          </div>
+        </footer>
+      </div>
+
+      <p class="weather-plugin__error" id="weather-plugin-error" hidden></p>
+    </div>
+  </div>
+</div>
+
+<script defer src="{{ '/assets/js/weather.js' | relative_url }}"></script>

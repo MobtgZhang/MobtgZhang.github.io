@@ -1,0 +1,175 @@
+# 「更多 >>」弹窗里的系列内容
+#
+# 页面主体只保留算法家谱；其余内容（学习路线、NLP 地图、全站索引等）
+# 收进「更多 >>」弹窗，通过顶部的系列切换按钮选择。
+#
+# 每个系列字段：
+#   id       —— 唯一标识，同时作为 tab / tabpanel 的关联键
+#   name     —— 系列名称
+#   icon     —— Font Awesome 图标类名
+#   color    —— 主题色
+#   subtitle —— 一句话简介
+#   status   —— 状态标签（整理中 / 已完成）
+#   layers   —— 分层内容（可选）：用于有层级的系列
+#   stages   —— 阶段内容（可选）：用于阶段式的系列
+#   stats    —— 统计条目（可选）：用于数字概览式的系列
+
+series:
+  # ---------- 学习路线 Roadmap ----------
+  - id: roadmap
+    name: 学习路线
+    icon: fas fa-route
+    color: "#d29922"
+    subtitle: 从「看懂一个算法」到「独立写出一篇论文」的分阶段路线
+    status: 整理中
+    stages:
+      - no: "01"
+        title: 基础概念
+        desc: 统一语言：明确优化问题、搜索空间、局部最优与全局最优、收敛判据与评价指标。
+        items:
+          - title: 模拟退火与 Metropolis 准则
+            note: 理解"接受劣解"这一跳出局部最优的核心机制
+            url: /posts/Simulated-annealing-algorithm/
+          - title: 收敛性与评价指标
+            note: 收敛速度、稳定性与多目标下的权衡
+            url: /posts/Model-Analysis-Score/
+      - no: "02"
+        title: 单算法精读
+        desc: 每族挑一个代表算法精读：推导更新公式、看懂论文原始实验、跑通自己的实现。
+        items:
+          - title: 遗传算法 GA
+            note: 模式定理是 GA 有效性的数学解释
+            url: /posts/Genetic-Algorithm/
+          - title: 差分进化 DE
+            note: 种群内差分向量为何能自动指向狭长山谷方向
+            url: /posts/Differential-Evolution/
+          - title: CMA-ES
+            note: 协方差矩阵如何学习维度间的相关性
+            url: /posts/CMA-ES/
+          - title: 粒子群 PSO
+            note: 速度—位置更新与惯性权重的调节作用
+            url: /posts/Particle-Swarm-Optimization/
+      - no: "03"
+        title: 对比实验
+        desc: 在同一组基准函数上横向对比：收敛速度、最终精度、稳定性与计算开销。
+        items:
+          - title: 17 个算法的统一实现与对比
+            note: 站内每篇文章均附有基准函数收敛曲线
+            url: /posts/Genetic-Algorithm/
+          - title: 评价方法与指标
+            note: ROC、NDCG、混淆矩阵等评测手段
+            url: /posts/Model-Analysis-Score/
+      - no: "04"
+        title: 论文复现
+        desc: 复现算法原始论文中的实验设置与结论，核对超参数、测试函数与统计口径。
+        items:
+          - title: 智能计算分类下的算法文章
+            note: 每篇均标注原始文献出处与发表年份
+            url: /categories/智能计算/
+      - no: "05"
+        title: 论文写作
+        desc: 把结果组织成论文：摘要、方法、实验、结论，配图与引用规范一次到位。
+        items:
+          - title: 数学建模竞赛论文模板
+            note: sues-mm 校级建模竞赛 LaTeX 模板
+            url: https://github.com/mobtgzhang/sues-mm
+          - title: 大数据竞赛完整方案
+            note: 2021 MathorCup 大数据竞赛 A 题（含数据处理与建模全流程）
+            url: https://github.com/mobtgzhang/2021MathorCupBigDataCompetition
+          - title: 学位论文 LaTeX 模板
+            note: sues-thesis，支持双盲审格式与参考文献样式
+            url: https://github.com/mobtgzhang/sues-thesis
+
+  # ---------- NLP 知识地图 ----------
+  - id: nlp
+    name: NLP 地图
+    icon: fas fa-diagram-project
+    color: "#58a6ff"
+    subtitle: 任务、模型、评价与数据四层之间的方法论递进关系
+    status: 整理中
+    layers:
+      - name: 任务层
+        desc: 站点覆盖的三类经典任务
+        items:
+          - title: 机器阅读理解 R-Net
+            note: 阅读理解中注意力网络的早期代表作
+            url: /posts/RNet-Machine-ReadingComprehensive/
+          - title: 关系抽取
+            note: 从文本中抽取实体间关系
+            url: /posts/Entity-Extraction/
+          - title: 神经机器翻译
+            note: 从 Transformer 到生成式模型的演进脉络
+            url: /posts/Trans-Model-Paper/
+      - name: 模型层
+        desc: 支撑上述任务的基础结构
+        items:
+          - title: 翻译模型基础
+            note: Encoder–Decoder 与注意力机制
+            url: /posts/Trans-Basic/
+          - title: 高斯变换与建模
+            note: 概率建模视角下的生成模型
+            url: /posts/Trans-Gaussian/
+      - name: 评价层
+        desc: 怎么判断模型好不好
+        items:
+          - title: 模型评价方法
+            note: NDCG、ROC 曲线、混淆矩阵的适用场景
+            url: /posts/Model-Analysis-Score/
+      - name: 数据层
+        desc: 训练与评测的数据来源
+        items:
+          - title: 中文机器阅读理解数据集
+            note: CMRC2018 数据处理与基线复现
+            url: /posts/Machine-Learning-Datasets/
+          - title: ACL 论文笔记
+            note: 顶会论文的分类整理与阅读笔记
+            url: /posts/ACL-Paper-Posts/
+
+  # ---------- 全站索引 ----------
+  - id: index
+    name: 全站索引
+    icon: fas fa-layer-group
+    color: "#3fb950"
+    subtitle: 站点全部内容的分类概览与入口
+    status: 已完成
+    stats:
+      - label: 智能优化算法
+        value: "15"
+        note: 篇
+        url: /categories/智能计算/
+      - label: NLP 与模型分析
+        value: "8"
+        note: 篇
+        url: /categories/论文/
+      - label: 维基条目
+        value: "4"
+        note: 篇
+        url: /wiki/
+      - label: 精选开源项目
+        value: "6"
+        note: 个
+        url: /open-source/
+    stages:
+      - no: "A"
+        title: 智能计算
+        desc: 进化计算、群智能、教学与谐振三条主线，外加模拟退火这一基准方法。
+        items:
+          - title: 智能优化算法家谱
+            note: 页面主体就是这张图，按机制分族
+            url: /mindmap-viewer/
+      - no: "B"
+        title: 语言与工具
+        desc: Python 与 Julia 的语法细节，偏向"记不住就查"的速查手册。
+        items:
+          - title: Python 运算符重载
+            note: 各类特殊方法与反向运算符
+            url: /wiki/python-operator/
+          - title: Python with 语句
+            note: 上下文管理协议的原理与自定义
+            url: /wiki/python-with/
+          - title: Julia 变量与数值类型
+            note: 变量、整数浮点、任意精度算术
+            url: /wiki/julia-variable/
+          - title: Julia 运算符与函数
+            note: 函数式风格下的常用运算符
+            url: /wiki/julia-operator-function-complex/

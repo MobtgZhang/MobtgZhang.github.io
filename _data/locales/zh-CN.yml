@@ -31,6 +31,44 @@ panel:
   lastmod: 最近更新
   trending_tags: 热门标签
   toc: 文章内容
+  weather: 当前天气
+
+# ----- 开源页 -----
+os:
+  repositories: 公开仓库
+  total_stars: 累计 Star
+  total_forks: 累计 Fork
+  languages: 使用语言
+  last_update: 最近更新
+  featured: 精选项目
+  all_repos: 全部仓库
+  repo: 仓库
+  language: 语言
+  stars: Star
+  forks: Fork
+  updated: 更新
+  search: 搜索仓库…
+  filter: 筛选
+  no_result: 没有匹配的仓库
+  show_more: 展开全部仓库
+  show_less: 收起
+  live_note: 数据由 GitHub API 实时提供，页面加载后会自动刷新。
+  fallback_note: 当前展示的是本地缓存数据，页面加载后将尝试从 GitHub API 刷新。
+
+# ----- 脑图查看页 -----
+mm:
+  family_title: 智能优化算法家谱
+  family_sub: 按搜索机制分为四族，共收录 17 个算法；点击下方任一算法可直接进入对应文章。
+  legend: 分族图例
+  total: 合计
+  unit: 个
+  hint: 点击图中节点即可跳转到对应文章
+  canvas_aria: 智能优化算法家谱脑图
+  more: 更多
+  modal_title: 更多系列
+  close: 关闭
+  series_tabs: 系列
+  expand: 展开其余
 
 copyright:
   # Shown at the bottom of the post

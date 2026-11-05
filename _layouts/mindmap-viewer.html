@@ -1,0 +1,280 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+{%- comment -%}
+  脑图查看页。
+
+  页面结构：
+    主体 —— 智能优化算法家谱（实体内容，用 Mermaid mindmap 渲染）
+    弹窗 —— 「更多 >>」按钮打开，里面有多个可切换的系列
+            （学习路线 / NLP 地图 / 全站索引）
+
+  这样安排的原因：主体只保留家谱一个区块，明细卡片可以整行对齐；
+  其余系列放进弹窗，按需切换，不会让主页面被拉得过长。
+
+  渲染机制：
+  1. 这里输出一段隐藏的 <pre class="mm-src">，内容是从
+     _data/optimization_family.yml 拼装的 Mermaid mindmap 源码；
+  2. assets/js/mindmap.js 调用 Mermaid 的 render() API 生成 SVG，
+     再把节点与站内文章链接绑定，并按分族上色；
+  3. 明暗主题切换时（Theme 派发 theme-mode 消息）自动重绘。
+{%- endcomment -%}
+
+{%- assign family_data = site.data.optimization_family -%}
+{%- assign series_data = site.data.mindmap_series -%}
+
+<article class="px-1 mindmap-page">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+  <!-- ============ 主体：算法家谱 ============ -->
+  <section class="mm-section" id="mm-family">
+    <div class="mm-section__head">
+      <div class="mm-section__title-wrap">
+        <h2 class="mm-section__title">
+          <i class="fas fa-sitemap" aria-hidden="true"></i>
+          {{ site.data.locales[include.lang].mm.family_title | default: "智能优化算法家谱" }}
+        </h2>
+        <p class="mm-section__sub">
+          {{ site.data.locales[include.lang].mm.family_sub | default: "按搜索机制分为四族，共收录 17 个算法；点击下方任一算法可直接进入对应文章。" }}
+        </p>
+      </div>
+
+      <!-- 「更多 >>」按钮：打开系列弹窗 -->
+      <button type="button" class="mm-more-btn" id="mm-more-btn"
+              aria-haspopup="dialog" aria-controls="mm-series-modal">
+        <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+        <span>{{ site.data.locales[include.lang].mm.more | default: "更多" }}</span>
+        <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="mm-legend" role="list" aria-label="{{ site.data.locales[include.lang].mm.legend | default: '分族图例' }}">
+      {%- for fam in family_data.families %}
+        <span class="mm-legend__item" role="listitem">
+          <span class="mm-dot" style="background: {{ fam.color }}"></span>
+          {{ fam.name }}
+          <b>{{ fam.members.size }}</b>
+        </span>
+      {%- endfor %}
+      {%- comment -%}
+        合计用累加循环计算：Liquid 的 `map: 'members' | map: 'size' | sum`
+        链式过滤取不到 size（会报 "cannot select the property 'size'"），
+        结果是空标签，因此这里手工累加。
+      {%- endcomment -%}
+      {%- assign algo_total = 0 -%}
+      {%- for fam in family_data.families -%}
+        {%- assign algo_total = algo_total | plus: fam.members.size -%}
+      {%- endfor %}
+      <span class="mm-legend__item mm-legend__item--total" role="listitem">
+        <i class="fas fa-layer-group" aria-hidden="true"></i>
+        {{ site.data.locales[include.lang].mm.total | default: "合计" }}
+        <b>{{ algo_total }}</b>
+      </span>
+    </div>
+
+    <div class="mm-canvas">
+      {%- comment -%}
+        Mermaid mindmap 语法：缩进决定层级。
+        注意：mindmap 解析器会把引号当作普通字符，所以节点文字不能加引号；
+        这里的节点文字均为中文 + 英文缩写，不含 Mermaid 的特殊符号，可安全直出。
+      {%- endcomment -%}
+      {%- capture mindmap_src -%}
+mindmap
+  root((智能优化算法))
+    {%- for fam in family_data.families %}
+    {{ fam.name }}
+      {%- for m in fam.members %}
+      {{ m.key }}
+      {%- endfor %}
+    {%- endfor %}
+      {%- endcapture -%}
+      {%- assign mindmap_src = mindmap_src | strip -%}
+
+      <pre class="mm-src" aria-hidden="true">{{ mindmap_src | escape }}</pre>
+      <div class="mm-diagram" role="img"
+           aria-label="{{ site.data.locales[include.lang].mm.canvas_aria | default: '智能优化算法家谱脑图' }}"></div>
+
+      <p class="mm-canvas__hint">
+        <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+        {{ site.data.locales[include.lang].mm.hint | default: "点击图中节点即可跳转到对应文章" }}
+      </p>
+    </div>
+
+    <!-- ============ 家谱明细 ============ -->
+    <div class="mm-families">
+      {%- for fam in family_data.families %}
+        <div class="mm-family" style="--fam-color: {{ fam.color }}">
+          <div class="mm-family__head">
+            <span class="mm-family__dot"></span>
+            <h3 class="mm-family__name">{{ fam.name }}</h3>
+            <span class="mm-family__count">{{ fam.members.size }} {{ site.data.locales[include.lang].mm.unit | default: "个" }}</span>
+          </div>
+          <p class="mm-family__blurb">{{ fam.blurb }}</p>
+          <ul class="mm-members">
+            {%- for m in fam.members %}
+              <li class="mm-member{% if forloop.index > 4 %} mm-member--extra{% endif %}">
+                <a class="mm-member__link" href="{{ m.url | relative_url }}">
+                  <span class="mm-member__abbr">{{ m.abbr }}</span>
+                  <span class="mm-member__body">
+                    <b class="mm-member__title">{{ m.title }}</b>
+                    <small class="mm-member__summary">{{ m.summary }}</small>
+                    <span class="mm-member__meta">
+                      <span class="mm-member__year">{{ m.year }}</span>
+                      <span class="mm-member__authors">{{ m.authors }}</span>
+                      <span class="mm-member__venue">{{ m.venue }}</span>
+                    </span>
+                  </span>
+                  <i class="fas fa-arrow-right mm-member__go" aria-hidden="true"></i>
+                </a>
+              </li>
+            {%- endfor %}
+          </ul>
+          {%- if fam.members.size > 4 %}
+            <button type="button" class="mm-family__toggle" aria-expanded="false">
+              <span class="mm-family__toggle-text">
+                {{ site.data.locales[include.lang].mm.expand | default: "展开其余" }} {{ fam.members.size | minus: 4 }} {{ site.data.locales[include.lang].mm.unit | default: "个" }}
+              </span>
+              <i class="fas fa-chevron-down" aria-hidden="true"></i>
+            </button>
+          {%- endif %}
+        </div>
+      {%- endfor %}
+    </div>
+  </section>
+</article>
+
+<!-- ============ 「更多 >>」系列弹窗 ============ -->
+<!--
+  主题自带的 Bootstrap 只打包了 collapse / tooltip 的 data-api，
+  没有 Modal 组件，也没有 modal 的样式，所以这里用原生实现：
+  遮罩层 + 固定定位面板 + 手动管理焦点与滚动锁定。
+-->
+<div class="mm-modal" id="mm-series-modal" role="dialog" aria-modal="true"
+     aria-labelledby="mm-series-modal-title" hidden>
+  <div class="mm-modal__backdrop" data-mm-close></div>
+
+  <div class="mm-modal__dialog" role="document">
+    <div class="mm-modal__panel">
+      <div class="mm-modal__header">
+        <h2 class="mm-modal__title" id="mm-series-modal-title">
+          <i class="fas fa-layer-group" aria-hidden="true"></i>
+          {{ site.data.locales[include.lang].mm.modal_title | default: "更多系列" }}
+        </h2>
+        <button type="button" class="mm-modal__close" data-mm-close
+                aria-label="{{ site.data.locales[include.lang].mm.close | default: '关闭' }}">
+          <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="mm-modal__body">
+        <!-- 系列切换标签 -->
+        <div class="mm-series-tabs" role="tablist" aria-label="{{ site.data.locales[include.lang].mm.series_tabs | default: '系列' }}">
+          {%- for s in series_data.series %}
+            <button type="button"
+                    class="mm-series-tab{% if forloop.first %} is-active{% endif %}"
+                    role="tab"
+                    id="mm-tab-{{ s.id }}"
+                    aria-selected="{{ forloop.first }}"
+                    aria-controls="mm-panel-{{ s.id }}"
+                    tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+                    data-series="{{ s.id }}"
+                    style="--tab-color: {{ s.color }}">
+              <i class="{{ s.icon }}" aria-hidden="true"></i>
+              <span>{{ s.name }}</span>
+              {%- if s.status %}
+                <em class="mm-series-tab__status">{{ s.status }}</em>
+              {%- endif %}
+            </button>
+          {%- endfor %}
+        </div>
+
+      {%- for s in series_data.series %}
+        <!-- 系列面板 -->
+        <div class="mm-series-panel{% if forloop.first %} is-active{% endif %}"
+             role="tabpanel"
+             id="mm-panel-{{ s.id }}"
+             aria-labelledby="mm-tab-{{ s.id }}"
+             style="--series-color: {{ s.color }}">
+          <p class="mm-series-panel__sub">{{ s.subtitle }}</p>
+
+          {%- if s.stats.size > 0 %}
+            <div class="mm-series-stats">
+              {%- for st in s.stats %}
+                <a class="mm-series-stat" href="{{ st.url | relative_url }}">
+                  <span class="mm-series-stat__value">{{ st.value }}<em>{{ st.note }}</em></span>
+                  <span class="mm-series-stat__label">{{ st.label }}</span>
+                </a>
+              {%- endfor %}
+            </div>
+          {%- endif %}
+
+          {%- if s.layers.size > 0 %}
+            <div class="mm-series-layers">
+              {%- for layer in s.layers %}
+                <div class="mm-series-layer">
+                  <h3 class="mm-series-layer__title">
+                    <span class="mm-series-layer__dot"></span>
+                    {{ layer.name }}
+                  </h3>
+                  <p class="mm-series-layer__desc">{{ layer.desc }}</p>
+                  <ul class="mm-series-items">
+                    {%- for item in layer.items %}
+                      <li class="mm-series-item">
+                        <a href="{{ item.url | relative_url }}">
+                          <b>{{ item.title }}</b>
+                          <small>{{ item.note }}</small>
+                        </a>
+                      </li>
+                    {%- endfor %}
+                  </ul>
+                </div>
+              {%- endfor %}
+            </div>
+          {%- endif %}
+
+          {%- if s.stages.size > 0 %}
+            <ol class="mm-series-stages">
+              {%- for st in s.stages %}
+                <li class="mm-series-stage">
+                  <span class="mm-series-stage__no">{{ st.no }}</span>
+                  <div class="mm-series-stage__body">
+                    <b class="mm-series-stage__title">{{ st.title }}</b>
+                    <p class="mm-series-stage__desc">{{ st.desc }}</p>
+                    <ul class="mm-series-items">
+                      {%- for item in st.items %}
+                        <li class="mm-series-item">
+                          <a href="{{ item.url | relative_url }}">
+                            <b>{{ item.title }}</b>
+                            <small>{{ item.note }}</small>
+                          </a>
+                        </li>
+                      {%- endfor %}
+                    </ul>
+                  </div>
+                </li>
+              {%- endfor %}
+            </ol>
+          {%- endif %}
+        </div>
+      {%- endfor %}
+      </div>
+
+      <div class="mm-modal__footer">
+        <button type="button" class="mm-modal__done" data-mm-close>
+          {{ site.data.locales[include.lang].mm.close | default: "关闭" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mermaid mindmap 运行时（仓库内已自带该文件，不依赖外部 CDN） -->
+<script defer src="{{ '/assets/lib/mermaid/mermaid.min.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/mindmap.js' | relative_url }}"></script>
