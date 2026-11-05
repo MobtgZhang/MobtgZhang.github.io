@@ -5,63 +5,80 @@ categories: [阅读理解]
 tags: [R-Net, 机器阅读理解模型, 阅读理解]
 author: MobtgZhang
 ---
-# 简介
-&ensp;&ensp;&ensp;&ensp;机器阅读理解是指让计算机能够阅读文本,随后让计算机解答与文中信息相关系的问题.斯坦福大学自然语言计算组发布SQuAD数据集,微软亚研R-Net是首个在某些指标中接近人类的深度学习模型.本篇文章主要叙述的是机器阅读理解中的R-Net神经网络.
-# 机器阅读理解问题描述
-&ensp;&ensp;&ensp;&ensp;文中每个样例大致由一个三元组构成(包含有文章Passage,相应问题Query以及对应答案Answer),输入是一个文章和相应问题,输出是一个答案Answer,三元组均使用(P,Q,A)表示.
-# R-Net 模型结构图
-&ensp;&ensp;&ensp;&ensp;R-Net模型结构图如下所示
+
+## 简介
+
+机器阅读理解（Machine Reading Comprehension）是指让计算机阅读一段文本，并据此回答与文中内容相关的问题。斯坦福大学发布的 SQuAD 数据集是该领域最具影响力的基准数据集之一。微软亚洲研究院提出的 R-Net 模型是首个在部分指标上接近人类水平的深度学习模型，本文将对 R-Net 的原理进行详细解读。
+
+## 问题定义
+
+机器阅读理解的每个样本由一个三元组构成：**文章**（Passage, $P$）、**问题**（Query, $Q$）和**答案**（Answer, $A$），记作 $(P, Q, A)$。模型的输入是文章和问题，输出是从文章中抽取的答案片段的起始和终止位置。
+
+## R-Net 模型结构
+
+R-Net 模型整体结构如下图所示：
 
 <div>
-<p style="text-align:center;"><img src="/assets/img/posts/ReadingComprehensive/R-Net.png" width="35%" alt="R-Net阅读理解模型表示图" /></p>
+<p style="text-align:center;"><img src="/assets/img/posts/ReadingComprehensive/R-Net.png" width="35%" alt="R-Net阅读理解模型结构图" /></p>
 </div>
 
-# 原理介绍
-&ensp;&ensp;&ensp;&ensp;R-Net模型一共分为四个步骤,分别为
+模型由四个核心模块组成：
 
-1. Question and Passage Encoder(问题和文章的编码器)
-2. Gated Attention-Based Recurrent Networks(门注意力基础循环神经网络)
-3. Self-Matching Attention (自匹配注意力网络)
-4. Output layer (输出层)
+1. **Question and Passage Encoder**：问题和文章的编码层
+2. **Gated Attention-Based Recurrent Networks**：基于门控注意力的循环网络
+3. **Self-Matching Attention**：自匹配注意力网络
+4. **Output Layer**：基于 Pointer Network 的输出层
 
-## 1. Question and Passage Encoder(问题和文章的编码器)
-&ensp;&ensp;&ensp;&ensp;第一层表示学习过程,R-Net神经网络中输入是Glove+CharEmbedding.第一种是将文章P和问题Q中的单词替换为Glove词向量中的数据$P=\left\{e_{t}^{P}\right\}_{t=1}^{n}$,$Q=\left\{e_{t}^{Q}\right\}_{t=1}^{m}$,第二种是charEmbedding:$P_{c}=\left\{e_{t}^{P}\right\}_{t=1}^{n}$,$Q_{c}=\left\{e_{t}^{Q}\right\}_{t=1}^{m}$.最终将文章P以及问题Q通过BiRNN神经网络,这里使用的是BiGRU网络.
+## 原理详解
 
-$$u_{t}^{Q}=BiRNN_{Q}(u_{t-1}^{Q},[e_{t}^{Q},c_{t}^{Q}])$$
+### Question and Passage Encoder
 
-$$u_{t}^{P}=BiRNN_{Q}(u_{t-1}^{P},[e_{t}^{P},c_{t}^{P}])$$
+编码层将文章 $P$ 和问题 $Q$ 中的每个词映射为低维向量。R-Net 采用 **GloVe 词向量 + 字符级嵌入（Char Embedding）** 的双重表示：
 
-## 2. Gated Attention-Based Recurrent Networks(门注意力基础循环神经网络)
+- GloVe 词向量：$P=\{e_{t}^{P}\}_{t=1}^{n}$，$Q=\{e_{t}^{Q}\}_{t=1}^{m}$
+- 字符级嵌入：$P_{c}=\{c_{t}^{P}\}_{t=1}^{n}$，$Q_{c}=\{c_{t}^{Q}\}_{t=1}^{m}$
 
-&ensp;&ensp;&ensp;&ensp;从上一层神经网络可以得到$u_{t}^{Q}$以及$u_{t}^{P}$,在这一层神经网路试图将$u_{t}^{Q}$进行attention加权融入到$u_{t}^{P}$中,得到问题Q的注意力下的文章语义理解向量
+将两者拼接后输入双向 GRU（BiGRU）网络，得到上下文感知的编码表示：
 
-$$v_{t}^{P}=RNN(v_{t-1}^{P},c_{t})$$
+$$u_{t}^{Q}=\text{BiRNN}_{Q}(u_{t-1}^{Q},[e_{t}^{Q},c_{t}^{Q}])$$
 
-其中$c_{t}=att(u^{Q},[u_{t}^{P},v_{t-1}^{P}])$是一个对问题Q的attention-pooling加权.具体的形式如下所示
+$$u_{t}^{P}=\text{BiRNN}_{P}(u_{t-1}^{P},[e_{t}^{P},c_{t}^{P}])$$
 
-$$s_{j}^{t}=v^{T}\tanh(W_{u}^{Q}u_{j}^{Q}+W_{u}^{P}u_{t}^{Q}+W_{v}^{P}v_{t-1}^{P})$$
+其中 $u_{t}^{P}$ 和 $u_{t}^{Q}$ 分别表示文章和问题中第 $t$ 个词的编码向量。
+
+### Gated Attention-Based Recurrent Networks
+
+这一层将问题信息以注意力的方式融入文章表示中。具体而言，对于文章中的第 $t$ 个词，模型计算其对问题 $Q$ 中所有词的注意力权重：
+
+$$s_{j}^{t}=v^{T}\tanh(W_{u}^{Q}u_{j}^{Q}+W_{u}^{P}u_{t}^{P}+W_{v}^{P}v_{t-1}^{P})$$
 
 $$a_{i}^{t}=\exp(s_{i}^{t})/\sum\limits_{j=1}^{m}\exp(s_{j}^{t})$$
 
 $$c_{t}=\sum\limits_{i=1}^{m}a_{i}^{t}u_{i}^{Q}$$
 
-R-Net又基于Match-LSTM的基础上对以上方法提出一些以下的改进方法,第一点是将$c_{t}$和$u_{t}^{P}$并联为$[c_{t},u_{t}^{P}]$加入RNN中,即
+其中 $c_{t}$ 是问题 $Q$ 在当前文章位置的注意力池化向量，$v_{t-1}^{P}$ 是上一时刻的隐状态。
 
-$$v_{t}^{P}=RNN(v_{t-1}^{P},[c_{t},u_{t}^{P}])$$
+R-Net 在 Match-LSTM 的基础上做了两点改进：
 
-第二点又在$[c_{t},u_{t}^{P}]$上面加入门控制方式,为了更好地抽取和文章有关问题的信息,即加入的以下的方法
+**第一，将注意力向量与当前词编码拼接**，一起输入 RNN：
+
+$$v_{t}^{P}=\text{RNN}(v_{t-1}^{P},[c_{t},u_{t}^{P}])$$
+
+**第二，引入门控机制**，通过门控单元自适应地筛选与当前文章位置相关的问题信息：
 
 $$g_{t}=\sigma(W_{g}[u_{t}^{P},c_{t}])$$
 
 $$[u_{t}^{P},c_{t}]^{*}=g_{t}\odot[u_{t}^{P},c_{t}]$$
 
-## 3. Self-Matching Attention (自匹配注意力网络)
+门控值 $g_{t} \in (0,1)$ 控制了信息流入的比例，使模型能够更好地抽取与文章相关的问题信息。
 
-&ensp;&ensp;&ensp;&ensp;自匹配的方式充分借鉴了Attention is all you need中的自注意力思想,在模型效果提升中起了很大的作用,而且这个方法也易于实现.
+### Self-Matching Attention
 
-$$h_{t}^{P}=BiRNN(h_{t-1}^{P},[c_{t},v_{t}^{P}])$$
+自匹配注意力借鉴了 *Attention Is All You Need* 中的自注意力思想，让文章中的每个词直接与文章中的所有词进行交互，从而捕获段落内部的语义关联：
 
-其中,$c_{t}=att(v^{P},v_{t}^{P})$是基于当前单词下的整篇文章的语义
+$$h_{t}^{P}=\text{BiRNN}(h_{t-1}^{P},[c_{t},v_{t}^{P}])$$
+
+其中 $c_{t}=\text{att}(v^{P},v_{t}^{P})$ 是基于当前词对整篇文章的注意力池化，具体计算为：
 
 $$s_{j}^{t}=v^{T}\tanh(W_{v}^{P}v_{j}^{P}+W_{v}^{\hat{P}}v_{t}^{P})$$
 
@@ -69,9 +86,13 @@ $$a_{i}^{t}=\exp(s_{i}^{t})/\sum\limits_{j=1}^{n}\exp(s_{j}^{t})$$
 
 $$c_{t}=\sum\limits_{i=1}^{n}a_{i}^{t}v_{i}^{P}$$
 
-## 4. Output layer (输出层)
+自匹配注意力使每个词的最终表示 $h_{t}^{P}$ 同时包含局部匹配信息和全局上下文信息，这是 R-Net 性能提升的关键因素之一。
 
-&ensp;&ensp;&ensp;&ensp;R-Net模型输出的是文章中的起始位置,在这一过程中借鉴了pointer-Network的思想,R-Net模型先计算得到开始位置在文章中的分布$p_{1}$,再利用这一分布对整篇文章进行加权作为输入得到终止位置在文章中的分布$p_{2}$.所以这其实是一个seq2seq的过程,只不过最终得到的seq中只有两项,即起始位置$p_{1}$和终止位置$p_{2}$.对于一个seq2seq过程,R-Net使用对问题$u_{t}^{Q}$进行attention-pooling得到的$r^{Q}$作为起始键.
+### Output Layer
+
+输出层借鉴了 Pointer Network 的思想，直接在文章中定位答案的起始和终止位置。
+
+模型首先将问题 $Q$ 通过注意力池化压缩为一个向量 $r^{Q}$：
 
 $$s_{j}=v^{T}\tanh(W_{u}^{Q}u_{j}^{Q}+W_{v}^{Q}v_{r}^{Q})$$
 
@@ -79,11 +100,11 @@ $$a_{i}^{t}=\exp(s_{i}^{t})/\sum\limits_{j=1}^{n}\exp(s_{j}^{t})$$
 
 $$r^{Q}=\sum\limits_{i=1}^{n}a_{i}u_{i}^{Q}$$
 
-其中这个seq2seq的循环结构为
+然后以 $r^{Q}$ 作为初始状态，通过一个 RNN 循环两次，依次预测起始位置和终止位置：
 
-$$h_{t}^{q}=RNN(h_{t-1}^{a},c_{t})$$
+$$h_{t}^{a}=\text{RNN}(h_{t-1}^{a},c_{t})$$
 
-$c_{t}$依然是对文章的attention-pooling得到的结果:
+其中每一步的 $c_{t}$ 是对文章编码的注意力池化：
 
 $$s_{j}=v^{T}\tanh(W_{u}^{P}u_{j}^{P}+W_{h}^{a}h_{t-1}^{a})$$
 
@@ -91,8 +112,8 @@ $$a_{i}^{t}=\exp(s_{i}^{t})/\sum\limits_{j=1}^{n}\exp(s_{j}^{t})$$
 
 $$c_{t}=\sum\limits_{i=1}^{n}a_{i}^{t}h_{i}^{P}$$
 
-通过以上RNN循环单元两次可以得到两个权重分布,我们可以通过下面这种方式从中得到答案的其实位置
+每次循环通过 argmax 得到一个位置：
 
-$$p^{t}=\arg\max\left\{a_{1}^{t},\dots,a_{n}^{t}\right\}$$
+$$p^{t}=\arg\max\{a_{1}^{t},\dots,a_{n}^{t}\}$$
 
-&ensp;&ensp;&ensp;&ensp;通过得到两个分布表示$p_{1},p_{2}$,这样就会得到一个联合分布,在计算中可以表示为一个矩阵,然而由于开始位置永远在终止位置之前,所以我们的选择区域始终在矩阵对角线的左上半部分。又因为答案长度有一定范围,我们可以设置答案的最大长度,所以最后的训责区域知识一个若当标准型矩阵的.
+两次循环分别得到 $p_{1}$（起始位置）和 $p_{2}$（终止位置）。由于起始位置必须位于终止位置之前，且答案长度有一定范围限制，最终的有效预测区域是位置-位置矩阵的**上三角部分**。

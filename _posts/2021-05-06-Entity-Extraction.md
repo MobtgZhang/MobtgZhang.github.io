@@ -1,7 +1,7 @@
 ---
 title: 篇章级关系抽取论文整理
 date: 2021-05-06 12:00:00 +0800
-categories: [论文]
+categories: [关系抽取论文]
 tags: [论文合集, 代码合集, 实体关系抽取]
 author: MobtgZhang
 ---
