@@ -1,0 +1,40 @@
+/* webmeji — adapted from https://github.com/lars-rooij/webmeji (Unlicense) */
+
+/* The creature is a fixed overlay anchored to the bottom-right corner.
+   The container only clips the sprite; horizontal placement is driven by
+   webmeji.js so the character can walk within its home zone. */
+.webmeji-container {
+  position: fixed;
+  bottom: 0;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* Re-enable pointer events on the sprite itself so it can be petted/dragged. */
+.webmeji-container img {
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: auto;
+  display: block;
+  transform-origin: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+}
+
+/* Keep the character clear of the "back to top" button and the footer. */
+@media (max-width: 850px) {
+  .webmeji-container {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webmeji-container img {
+    filter: none;
+  }
+}
