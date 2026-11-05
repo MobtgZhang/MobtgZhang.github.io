@@ -1,0 +1,35 @@
+# ---- Jekyll 构建产物 ----
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# ---- Ruby 依赖 ----
+# bundle install --path vendor/bundle 后产生的本地依赖
+.bundle/
+vendor/
+Gemfile.local
+
+# ---- 本地工具脚本的中间产物 ----
+# tools/ 下的文献核验脚本会产生大量缓存与报告，不入库
+tools/
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ---- 编辑器 / 操作系统 ----
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ---- 环境变量与本地配置 ----
+.env
+.env.*
+!.env.example
+*.local

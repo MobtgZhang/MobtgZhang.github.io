@@ -31,6 +31,23 @@ github:
 # 全站启用 MathJax（单页可 front matter 设 math: false 关闭）
 math: true
 
+# webmeji 动态漫画形象（全站右下角）
+# enabled: 是否在所有页面显示该形象
+# pages:  留空表示所有页面；若只想在部分页面显示，填页面 URL 列表，
+#         例如 ['/', '/posts/']，前缀匹配
+webmeji:
+  enabled: true
+  pages: []
+
+# 右上角的天气插件（液态玻璃风格）
+# Adapted from https://github.com/weatherwidget/weatherwidget.github.io
+# 定位失败时回退到下面的默认城市坐标。
+weather:
+  enabled: true
+  default_city: 上海
+  default_lat: 31.2304
+  default_lon: 121.4737
+
 twitter:
   username: # 未使用 Twitter
 
