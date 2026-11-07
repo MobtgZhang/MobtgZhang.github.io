@@ -1,0 +1,45 @@
+---
+layout: compress
+swcache: true
+---
+
+{%- comment -%}
+  站内搜索索引。
+
+  主题自带的 search.json 只收录 site.posts，
+  这里补上 site.wiki，否则 _wiki 下的长文（例如黎曼猜想系列）
+  在搜索框里永远搜不到。
+
+  {% include post-summary.html %} 依赖名为 post 的变量，
+  因此遍历 wiki 时要先把 wiki 赋给 post。
+{%- endcomment -%}
+
+{%- assign wiki_list = site.wiki -%}
+
+[
+  {%- for post in site.posts -%}
+  {%- capture content -%}{% include post-summary.html full_text=true %}{%- endcapture -%}
+  {
+    "title": {{ post.title | jsonify }},
+    "url": {{ post.url | relative_url | jsonify }},
+    "categories": {{ post.categories | join: ', ' | jsonify }},
+    "tags": {{ post.tags | join: ', ' | jsonify }},
+    "date": {{ post.date | jsonify }},
+    "content": {{ content | jsonify }}
+  }{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+
+  {%- for wiki in wiki_list -%}
+  {%- assign post = wiki -%}
+  {%- capture content -%}{% include post-summary.html full_text=true %}{%- endcapture -%}
+  {%- if site.posts.size > 0 or forloop.index0 > 0 -%},{%- endif -%}
+  {
+    "title": {{ wiki.title | jsonify }},
+    "url": {{ wiki.url | relative_url | jsonify }},
+    "categories": {{ wiki.categories | join: ', ' | jsonify }},
+    "tags": {{ wiki.tags | join: ', ' | jsonify }},
+    "date": {{ wiki.date | jsonify }},
+    "content": {{ content | jsonify }}
+  }
+  {%- endfor -%}
+]
