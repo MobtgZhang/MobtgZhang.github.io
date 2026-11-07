@@ -191,11 +191,32 @@ JEKYLL_ENV=production bundle exec jekyll build
 
 推送到 `main` 分支即触发 `.github/workflows/pages.yml`：
 
-1. Checkout → 配置 Ruby 3.3 → 配置 Pages
+1. Checkout → 配置 Ruby 3.3 → 自检 Jekyll 环境
 2. `bundle exec jekyll build`（`JEKYLL_ENV=production`）
 3. 上传 `_site` 并部署到 GitHub Pages
 
 也支持在 Actions 面板手动触发（`workflow_dispatch`）。
+
+### ⚠️ 首次部署须知：关闭 GitHub 自动生成的旧工作流
+
+`github.io` 仓库在首次启用 Pages 时，GitHub 会自动生成一个名为
+**「Deploy Jekyll with GitHub Pages dependencies preinstalled」** 的工作流，
+它调用 `actions/jekyll-build-pages@v1`。该 action **不安装你的 `Gemfile`**，
+而是使用镜像内置的 `github-pages` gem（Jekyll 3.10），因此对本项目会报：
+
+```
+The jekyll-theme-chirpy theme could not be found.
+(Jekyll::Errors::MissingDependencyException)
+```
+
+它只是在 `bundle check` 不通过时打印一条 warning，然后**继续用 Jekyll 3 构建**并失败。
+
+**处理办法**（在仓库 **Settings → Pages → Build and deployment → Source**
+中把 Source 设为 **GitHub Actions**，并到 **Actions** 标签页禁用/删除那个自动生成的
+`Deploy Jekyll with GitHub Pages dependencies preinstalled` 工作流）。
+
+仓库中已提交的 `.github/workflows/pages.yml` 才是正确的工作流；
+只要上面那个自动生成的工作流还在，它就仍会在 push 时被触发并失败。
 
 ---
 
