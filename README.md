@@ -91,6 +91,21 @@
 - PWA 可安装与离线缓存
 - 明暗主题切换，脑图随主题自动重绘
 
+### 读书（`/books/`）与宝典（`/handbook/`）
+
+两个栏目都是**纯数据驱动**的，页面本身不含内容：
+
+| 栏目 | 数据源 | 说明 |
+| :--- | :--- | :--- |
+| 读书 | `_data/books.yml` | 按 `field`（计算机 / 数学 / 物理）分组，支持状态、评分、标签与 Markdown 读书笔记 |
+| 宝典 | `_data/handbook.yml` | 按 `sections` 分板块，支持外部链接、标签与代码片段（面试题速查） |
+
+新增记录只需往对应 YAML 里追加条目，页面会自动出现对应的卡片 / 板块；
+删掉条目即恢复为占位空态。布局分别见 `_layouts/books.html` 与 `_layouts/handbook.html`。
+
+> **注意**：数学公式里不要直接写 `|`（会被 kramdown 当成表格分隔符），
+> 请用 `\lvert` / `\rvert` 代替。
+
 ---
 
 ## 技术栈
@@ -145,14 +160,16 @@ JEKYLL_ENV=production bundle exec jekyll build
 ├── _includes/               # 主题片段（含 weather / webmeji）
 ├── _layouts/                # 自定义布局
 │   ├── mindmap-viewer.html      # 算法家谱页
-│   └── open-source.html         # 开源页
+│   ├── open-source.html         # 开源页
+│   ├── books.html               # 读书页（/_data/books.yml 驱动）
+│   └── handbook.html            # 宝典页（/_data/handbook.yml 驱动）
 ├── _plugins/                # Ruby 插件
 │   ├── github_public_repos.rb   # 构建期抓取 GitHub 仓库数据
 │   └── posts-lastmod-hook.rb    # 用 git 时间戳补 lastmod
 ├── _posts/                  # 文章（25 篇）
 ├── _sass/custom.scss        # 自定义样式
 ├── _tabs/                   # 导航页（关于 / 开源 / 脑图查看 等）
-├── _wiki/                   # 维基条目（Python / Julia 速查）
+├── _wiki/                   # 维基条目（黎曼猜想系列）
 ├── assets/
 │   ├── js/                  # 自定义脚本
 │   └── lib/                 # 内置的第三方静态资源
