@@ -1,0 +1,122 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+{%- comment -%}
+  「宝典」页面。
+
+  数据源：_data/handbook.yml
+  每个 section 是一个板块，板块内是条目列表。
+  条目支持外部链接与代码片段（面试题、命令速查等）。
+{%- endcomment -%}
+
+{%- assign sections = site.data.handbook.sections -%}
+{%- assign tag_labels = site.data.handbook.tag_labels -%}
+
+<article class="px-1 handbook-page">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content mb-4">
+    {{ content }}
+  </div>
+
+  {%- if sections and sections.size > 0 %}
+  <div class="hb-toc" role="navigation" aria-label="{{ site.data.locales[lang].handbook.sections_label | default: '板块导航' }}">
+    {%- for s in sections %}
+    <a class="hb-toc__item" href="#hb-{{ forloop.index }}">
+      <i class="{{ s.icon | default: 'fas fa-layer-group' }}" aria-hidden="true"></i>
+      {{ s.title }}
+    </a>
+    {%- endfor %}
+  </div>
+
+  <!-- ============ 板块 ============ -->
+  {%- for s in sections %}
+  <section class="hb-section" id="hb-{{ forloop.index }}">
+    <div class="hb-section__head">
+      <h2 class="hb-section__title">
+        <i class="{{ s.icon | default: 'fas fa-layer-group' }}" aria-hidden="true"></i>
+        {{ s.title }}
+      </h2>
+      {%- if s.updated %}
+      <span class="hb-section__date">
+        <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
+        {{ s.updated }}
+      </span>
+      {%- endif %}
+    </div>
+
+    {%- if s.desc %}
+    <p class="hb-section__desc">{{ s.desc }}</p>
+    {%- endif %}
+
+    {%- if s.items and s.items.size > 0 %}
+    <div class="hb-list">
+      {%- for it in s.items %}
+      <article class="hb-item">
+        <div class="hb-item__head">
+          <h3 class="hb-item__title">
+            {%- if it.link -%}
+            <a href="{{ it.link }}" target="_blank" rel="noopener noreferrer">{{ it.title }}</a>
+            {%- else -%}
+            {{ it.title }}
+            {%- endif -%}
+          </h3>
+          {%- if it.link %}
+          <a class="hb-item__ext" href="{{ it.link }}" target="_blank" rel="noopener noreferrer"
+             aria-label="{{ site.data.locales[lang].handbook.open_link | default: '打开链接' }}">
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          {%- endif %}
+        </div>
+
+        {%- if it.summary %}
+        <p class="hb-item__summary">{{ it.summary }}</p>
+        {%- endif %}
+
+        {%- if it.code %}
+        {%- assign code_text = it.code | strip -%}
+        <div class="hb-item__code">
+          {%- if code_text contains '```' %}
+          {{ it.code | markdownify }}
+          {%- else %}
+          <pre><code>{{ it.code | escape }}</code></pre>
+          {%- endif %}
+        </div>
+        {%- endif %}
+
+        {%- if it.tags and it.tags.size > 0 %}
+        <div class="hb-item__tags">
+          {%- for t in it.tags %}
+          {%- assign tc = tag_labels[t] -%}
+          <span class="hb-tag"{% if tc %} style="--tag-color: {{ tc }}"{% endif %}>{{ t }}</span>
+          {%- endfor %}
+        </div>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+    {%- else %}
+    <p class="hb-section__empty">
+      {{ site.data.locales[lang].handbook.section_empty | default: "这个板块还在整理中。" }}
+    </p>
+    {%- endif %}
+  </section>
+  {%- endfor %}
+
+  {%- else %}
+  <!-- ============ 空态 ============ -->
+  <div class="hb-empty">
+    <i class="fas fa-book-bookmark" aria-hidden="true"></i>
+    <p class="hb-empty__title">{{ site.data.locales[lang].handbook.empty_title | default: "宝典正在编写中" }}</p>
+    <p class="hb-empty__text">
+      {{ site.data.locales[lang].handbook.empty_text | default: "这里会整理计算机领域的前沿进展、常用面试题与工程实践中的经验教训。" }}
+    </p>
+    <p class="hb-empty__hint">
+      {{ site.data.locales[lang].handbook.empty_hint | default: "往 _data/handbook.yml 里加一个板块，页面就会多出一节。" }}
+    </p>
+  </div>
+  {%- endif %}
+</article>

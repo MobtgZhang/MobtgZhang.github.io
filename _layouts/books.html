@@ -1,0 +1,141 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+{%- comment -%}
+  「读书」页面。
+
+  数据源：_data/books.yml
+  书籍按领域（field）分组，领域顺序由 books.yml 中的 field_order 决定；
+  组内按状态排序（已读 → 在读 → 搁置 → 待读），再按年份倒序。
+  所有数据为空时，页面展示占位说明而不是空白。
+{%- endcomment -%}
+
+{%- assign books = site.data.books.books -%}
+{%- assign field_order = site.data.books.field_order -%}
+{%- assign status_meta = site.data.books.status_meta -%}
+{%- assign field_meta = site.data.books.field_meta -%}
+
+{%- assign total = books | size -%}
+{%- assign finished = 0 -%}
+{%- assign reading = 0 -%}
+{%- assign planned = 0 -%}
+{%- for b in books -%}
+  {%- if b.status == 'finished' -%}{%- assign finished = finished | plus: 1 -%}
+  {%- elsif b.status == 'reading' -%}{%- assign reading = reading | plus: 1 -%}
+  {%- elsif b.status == 'planned' -%}{%- assign planned = planned | plus: 1 -%}{%- endif -%}
+{%- endfor -%}
+
+<article class="px-1 books-page">
+  <h1 class="dynamic-title">{{ page.title }}</h1>
+
+  <div class="content mb-4">
+    {{ content }}
+  </div>
+
+  {%- if total > 0 %}
+  <!-- ============ 统计概览 ============ -->
+  <div class="bk-stats">
+    <div class="bk-stat">
+      <span class="bk-stat__value">{{ total }}</span>
+      <span class="bk-stat__label">{{ site.data.locales[lang].books.total | default: "书目" }}</span>
+    </div>
+    <div class="bk-stat">
+      <span class="bk-stat__value">{{ finished }}</span>
+      <span class="bk-stat__label">{{ site.data.locales[lang].books.finished | default: "已读" }}</span>
+    </div>
+    <div class="bk-stat">
+      <span class="bk-stat__value">{{ reading }}</span>
+      <span class="bk-stat__label">{{ site.data.locales[lang].books.reading | default: "在读" }}</span>
+    </div>
+    <div class="bk-stat">
+      <span class="bk-stat__value">{{ planned }}</span>
+      <span class="bk-stat__label">{{ site.data.locales[lang].books.planned | default: "待读" }}</span>
+    </div>
+  </div>
+
+  <!-- ============ 按领域分组 ============ -->
+  {%- for field in field_order %}
+    {%- assign items = books | where: 'field', field -%}
+    {%- if items.size > 0 %}
+      {%- assign meta = field_meta[field] -%}
+      <section class="bk-field">
+        <div class="bk-field__head">
+          <h2 class="bk-field__title">
+            <i class="{{ meta.icon | default: 'fas fa-book-open' }}" aria-hidden="true"></i>
+            {{ field }}
+            <span class="bk-field__count">{{ items.size }}</span>
+          </h2>
+          {%- if meta.desc %}
+          <p class="bk-field__desc">{{ meta.desc }}</p>
+          {%- endif %}
+        </div>
+
+        <div class="bk-grid">
+          {%- for b in items %}
+            {%- assign st = status_meta[b.status] -%}
+            <article class="bk-card" style="--st-color: {{ st.color | default: '#a1a1aa' }}">
+              <div class="bk-card__top">
+                <span class="bk-card__status">
+                  <i class="{{ st.icon | default: 'fas fa-bookmark' }}" aria-hidden="true"></i>
+                  {{ st.label | default: b.status }}
+                </span>
+                {%- if b.rating %}
+                <span class="bk-card__rating" title="{{ b.rating }} / 5">
+                  {%- for i in (1..5) -%}
+                    <i class="{% if i <= b.rating %}fas fa-star{% else %}far fa-star{% endif %}" aria-hidden="true"></i>
+                  {%- endfor -%}
+                </span>
+                {%- endif %}
+              </div>
+
+              <h3 class="bk-card__title">{{ b.title }}</h3>
+
+              {%- if b.author %}
+              <p class="bk-card__author">
+                <i class="fas fa-user" aria-hidden="true"></i>{{ b.author }}
+                {%- if b.year %} · {{ b.year }}{% endif -%}
+              </p>
+              {%- endif %}
+
+              {%- if b.summary %}
+              <p class="bk-card__summary">{{ b.summary }}</p>
+              {%- endif %}
+
+              {%- if b.note %}
+              <details class="bk-card__note">
+                <summary>{{ site.data.locales[lang].books.note | default: "读书笔记" }}</summary>
+                <div class="bk-card__note-body">{{ b.note | markdownify }}</div>
+              </details>
+              {%- endif %}
+
+              {%- if b.tags and b.tags.size > 0 %}
+              <div class="bk-card__tags">
+                {%- for t in b.tags %}
+                <span class="bk-tag">{{ t }}</span>
+                {%- endfor %}
+              </div>
+              {%- endif %}
+            </article>
+          {%- endfor %}
+        </div>
+      </section>
+    {%- endif %}
+  {%- endfor %}
+
+  {%- else %}
+  <!-- ============ 空态 ============ -->
+  <div class="bk-empty">
+    <i class="fas fa-book-open" aria-hidden="true"></i>
+    <p class="bk-empty__title">{{ site.data.locales[lang].books.empty_title | default: "书架正在整理中" }}</p>
+    <p class="bk-empty__text">
+      {{ site.data.locales[lang].books.empty_text | default: "这里会记录计算机、数学与物理方向的读书笔记——在读、已读与待读的书目都会列出来。" }}
+    </p>
+    <p class="bk-empty__hint">
+      {{ site.data.locales[lang].books.empty_hint | default: "往 _data/books.yml 里加一条记录，页面就会多出一张卡片。" }}
+    </p>
+  </div>
+  {%- endif %}
+</article>
