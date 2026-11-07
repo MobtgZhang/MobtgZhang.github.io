@@ -1,0 +1,70 @@
+# 读书清单
+#
+# 本文件是「读书」页面的唯一数据源。
+# 在此新增一本书，即在页面上多出一张卡片；删除条目即移除。
+#
+# 字段说明：
+#   title      书名（必填）
+#   author     作者
+#   field      领域，取值见下方 field_order：计算机 / 数学 / 物理 / 其他
+#   year       出版年份
+#   status     阅读状态：reading | finished | planned | paused
+#   rating     评分（1–5，可省略）
+#   tags       标签列表（可选）
+#   summary    一句话推荐语
+#   note       详细笔记（可选，支持 Markdown）
+#   cover      封面图路径（可选）
+
+books:
+  # —— 示例条目：取消注释并填写即可出现在页面上 ——
+  # - title: 书名示例
+  #   author: 作者
+  #   field: 计算机
+  #   year: 2024
+  #   status: reading
+  #   rating: 4
+  #   tags: [分布式系统]
+  #   summary: 一句话说明这本书为什么值得读。
+  #   note: |
+  #     这里可以写读书笔记，支持 Markdown。
+
+# 领域分组顺序（页面上按此顺序分节展示）
+field_order:
+  - 计算机
+  - 数学
+  - 物理
+  - 其他
+
+# 阅读状态的中文标签与配色
+status_meta:
+  reading:
+    label: 在读
+    icon: fas fa-book-reader
+    color: "#3b82f6"
+  finished:
+    label: 已读
+    icon: fas fa-check
+    color: "#22c55e"
+  planned:
+    label: 待读
+    icon: fas fa-bookmark
+    color: "#a1a1aa"
+  paused:
+    label: 搁置
+    icon: fas fa-pause
+    color: "#f59e0b"
+
+# 各领域的说明文字（显示在小节标题下方）
+field_meta:
+  计算机:
+    icon: fas fa-microchip
+    desc: 算法与系统、语言与实现，以及 AI 与机器学习方向的工程读物。
+  数学:
+    icon: fas fa-square-root-variable
+    desc: 分析、代数、几何与数论——既是兴趣，也是写作时的养分。
+  物理:
+    icon: fas fa-atom
+    desc: 从经典力学到量子与统计物理，理解世界的另一种方式。
+  其他:
+    icon: fas fa-compass
+    desc: 历史、哲学与传记，通向别处的书。

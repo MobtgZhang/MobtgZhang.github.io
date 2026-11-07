@@ -1,0 +1,41 @@
+# 宝典内容
+#
+# 本文件是「宝典」页面的唯一数据源。
+# 每新增一个 section，即在页面上多出一个板块。
+#
+# 字段说明：
+#   title       板块标题（必填）
+#   icon        板块图标（Font Awesome 7 类名）
+#   desc        板块简介
+#   updated     最近更新时间（YYYY-MM-DD）
+#   items       条目列表
+#     title     条目标题（必填）
+#     summary   一句话说明
+#     tags      标签列表（可选）
+#     link       外部链接（可选）
+#     code       代码片段（可选，用于面试题等）
+
+sections:
+  # —— 示例板块：取消注释并填写即可出现在页面上 ——
+  # - title: 板块标题
+  #   icon: fas fa-rocket
+  #   desc: 这个板块讲什么。
+  #   updated: 2026-11-06
+  #   items:
+  #     - title: 条目标题
+  #       summary: 条目说明。
+  #       tags: [标签一, 标签二]
+  #       link: https://example.com
+
+# 标签的中文名映射（未在此声明的标签将原样显示）
+tag_labels:
+  架构: "#0ea5e9"
+  算法: "#8b5cf6"
+  系统: "#14b8a6"
+  编译: "#f97316"
+  AI: "#ec4899"
+  分布式: "#06b6d4"
+  存储: "#84cc16"
+  网络: "#a855f7"
+  工程: "#64748b"
+  面试: "#ef4444"

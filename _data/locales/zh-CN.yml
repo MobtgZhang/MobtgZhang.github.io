@@ -12,14 +12,25 @@ tabs:
   # format: <filename_without_extension>: <value>
   home: 首页
   categories: 分类
-  tags: 标签
   archives: 归档
   articles: 文章
   wiki: 维基
-  links: 链接
+  books: 读书
+  handbook: 宝典
   open-source: 开源
   mindmap-viewer: 脑图查看
   about: 关于
+  # 主题 head.html 用「页面标题」而非「URL 片段」查表，
+  # 因此中文标题需要在这里再登记一份，否则 <title> 会是空的。
+  归档: 归档
+  文章: 文章
+  维基: 维基
+  读书: 读书
+  宝典: 宝典
+  开源: 开源
+  脑图查看: 脑图查看
+  关于: 关于
+  分类: 分类
 
 # the text displayed in the search bar & search results
 search:
@@ -54,6 +65,26 @@ os:
   show_less: 收起
   live_note: 数据由 GitHub API 实时提供，页面加载后会自动刷新。
   fallback_note: 当前展示的是本地缓存数据，页面加载后将尝试从 GitHub API 刷新。
+
+# ----- 读书页 -----
+books:
+  total: 书目
+  finished: 已读
+  reading: 在读
+  planned: 待读
+  note: 读书笔记
+  empty_title: 书架正在整理中
+  empty_text: 这里会记录计算机、数学与物理方向的读书笔记——在读、已读与待读的书目都会列出来。
+  empty_hint: 往 _data/books.yml 里加一条记录，页面就会多出一张卡片。
+
+# ----- 宝典页 -----
+handbook:
+  sections_label: 板块导航
+  open_link: 打开链接
+  section_empty: 这个板块还在整理中。
+  empty_title: 宝典正在编写中
+  empty_text: 这里会整理计算机领域的前沿进展、常用面试题与工程实践中的经验教训。
+  empty_hint: 往 _data/handbook.yml 里加一个板块，页面就会多出一节。
 
 # ----- 脑图查看页 -----
 mm:
